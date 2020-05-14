@@ -12,7 +12,7 @@
 
 NAME = lem_in.a
 LEM_IN = lem_in
-CFILES = display_functions.c rooms.c
+CFILES = display_functions.c rooms.c links.c
 OFILES = $(CFILES:.c=.o)
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
@@ -45,6 +45,10 @@ $(LEM_IN): $(NAME)
 	$(CC) $(FLAGS) $(LEM_IN).c $(NAME) $(LIBFT) -o $(LEM_IN)
 
 
+
+debug:	re
+	$(CC) -g $(FLAGS) $(LEM_IN).c $(CFILES) $(LIBFT) -o $(LEM_IN)
+	@echo "______________________________________________________________________\n"
 	
 # $(CHCK):  $(NAME)
 # 	$(CC) $(FLAGS) $(CHCK).c $(NAME) $(LIBFT) -o $(CHCK)
@@ -56,8 +60,6 @@ $(LEM_IN): $(NAME)
 
 # Used to compile for usding gdb debugger
 # cgcc: re
-# 	$(CC) -g $(FLAGS) checker.c $(CFILES) $(LIBFT) -o checker
-# 	@echo "______________________________________________________________________\n"
 # pgcc: re
 # 	$(CC) -g $(FLAGS) push_swap.c $(CFILES) $(LIBFT) -o push_swap
 # 	@echo "______________________________________________________________________\n"

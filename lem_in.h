@@ -26,6 +26,14 @@
 
 typedef struct s_farm t_farm;
 typedef struct s_room t_room;
+typedef struct s_link t_link;
+
+struct      s_link
+{
+    char    *room1;
+    char    *room2;
+    t_link  *next;
+};
 
 struct      s_room
 {
@@ -41,6 +49,7 @@ struct      s_farm
     int     ants;
     int     nbr_rooms;
     t_room  *rooms;
+    t_link  *links;
 };
 
 /*
@@ -55,6 +64,7 @@ void        print_lines(char *str);
 */
 
 void        verify_room(t_farm **farm, char *line, int type);
-void        create_room(t_farm **farm, char **room, int type);
+int         verify_start_end(t_farm **farm);
+void        verify_links(t_farm **farm, char *line);
 
 #endif

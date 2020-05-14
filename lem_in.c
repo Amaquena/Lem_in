@@ -37,14 +37,17 @@ static void initialize_map(t_farm **farm)
             type = START;
         if (ft_strequ(line, "##end"))
             type = END;
-        if (line[0] == '#')
-            continue;
-        if (ft_strchr(line, ' '))
+        if (ft_strchr(line, ' ') && line[0] != '#')
         {
             verify_room(farm, line, type);
             type = REG;
         }
-    }    
+        if (ft_strchr(line, '-') && line[0] != '#')
+            verify_links(farm, line);
+        ft_putendl(line);
+    }
+    if (!verify_start_end(farm))
+        error_msg();
 }
 
 int main(void)
@@ -54,12 +57,5 @@ int main(void)
     count_ants(&farm);
     intitailze_values(&farm);
     initialize_map(&farm);
-    // printf("%s\n%d\n%d\n%d\n", farm.rooms->name, farm.rooms->type, farm.rooms->x, farm.rooms->y);
-    while(farm->rooms)
-    {
-    printf("\n\nants:\t%d\nnbr_rooms:\t%d\nroom name:\t%s\ntype:\t%d\nx:\t%d\ny:\t%d\n",
-    farm->ants, farm->nbr_rooms, farm->rooms->name, farm->rooms->type, farm->rooms->x, farm->rooms->y);
-        farm->rooms = farm->rooms->next;
-    }
     return (0);
 }

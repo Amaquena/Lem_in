@@ -1,6 +1,6 @@
 #include "lem_in.h"
 
-void    create_room(t_farm **farm, char **room, int type)
+static void    create_room(t_farm **farm, char **room, int type)
 {
     t_room *new_room;
     t_room *head;
@@ -18,13 +18,31 @@ void    create_room(t_farm **farm, char **room, int type)
     if(head)
     {
         while (head->next)
-        {
             head = head->next; 
-        }
         head->next = new_room;
     }
     else
         (*farm)->rooms = new_room;
+}
+
+int    verify_start_end(t_farm **farm)
+{
+    t_room *head;
+    int flag;
+
+    head = (*farm)->rooms;
+    flag = 0;
+    while (head)
+    {
+        if (head->type == START)
+            flag++;
+        if (head->type == END)
+            flag++;
+        head = head->next;
+    }
+    if (flag != 2)
+        return (0);
+    return (1);
 }
 
 void     verify_room(t_farm **farm, char *line, int type)
