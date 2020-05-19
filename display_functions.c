@@ -1,9 +1,9 @@
 #include "lem_in.h"
 
-void    error_msg()
+void    error_msg(char *str)
 {
     ft_putstr(RED);
-    ft_putstr("ERROR");
+    ft_putstr(str);
     ft_putendl(RESET);
     exit(EXIT_FAILURE);
 }

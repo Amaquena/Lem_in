@@ -12,7 +12,7 @@
 
 NAME = lem_in.a
 LEM_IN = lem_in
-CFILES = display_functions.c rooms.c links.c
+CFILES = display_functions.c rooms.c links.c solve.c
 OFILES = $(CFILES:.c=.o)
 CC = gcc
 FLAGS = -Wall -Wextra -Werror

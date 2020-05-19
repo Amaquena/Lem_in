@@ -32,6 +32,7 @@ struct      s_link
 {
     char    *room1;
     char    *room2;
+    int     g;
     t_link  *next;
 };
 
@@ -41,6 +42,8 @@ struct      s_room
     int     type;
     int     x;
     int     y;
+    int     h;
+    int     f;
     t_room  *next;
 };
 
@@ -56,11 +59,11 @@ struct      s_farm
 ** print funtions
 */
 
-void        error_msg();
+void        error_msg(char *str);
 void        print_lines(char *str);
 
 /*
-** intitilizse funtions
+** intitilize funtions
 */
 
 void        verify_room(t_farm **farm, char *line, int type);

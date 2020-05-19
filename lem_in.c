@@ -6,7 +6,10 @@ static void intitailze_values(t_farm **farm)
     (*farm)->rooms->type = REG;
     (*farm)->rooms->x = 0;
     (*farm)->rooms->y = 0;
+    (*farm)->rooms->h = 0;
+    (*farm)->rooms->f = 0;
     (*farm)->rooms = NULL;
+    (*farm)->nbr_rooms = 0;
 }
 
 static void count_ants(t_farm **farm)
@@ -15,12 +18,12 @@ static void count_ants(t_farm **farm)
 
     line = NULL;
     if (get_next_line(0, &line) < 1)
-        error_msg();
+        error_msg("Error: Get next line read error.");
     if (!ft_strisdigit(line))
-        error_msg();
-    if (atoi(line) < 1)
-        error_msg();
-    (*farm)->ants = atoi(line);
+        error_msg("Error: Number of ants must be of interger type.");
+    if (ft_atoi(line) < 1)
+        error_msg("Error: Number of ant must be absolute.");
+    (*farm)->ants = ft_atoi(line);
     ft_putendl(line);
     free(line);
 }
@@ -47,7 +50,8 @@ static void initialize_map(t_farm **farm)
         ft_putendl(line);
     }
     if (!verify_start_end(farm))
-        error_msg();
+        error_msg("Error: No start or end declared.");
+    free(line);
 }
 
 int main(void)
@@ -57,5 +61,7 @@ int main(void)
     count_ants(&farm);
     intitailze_values(&farm);
     initialize_map(&farm);
+    // find_paths(&farm);
+
     return (0);
 }
