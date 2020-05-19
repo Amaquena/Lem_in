@@ -60,7 +60,7 @@ struct      s_farm
 */
 
 void        error_msg(char *str);
-void        print_lines(char *str);
+void        print_lines(t_farm *farm);
 
 /*
 ** intitilize funtions

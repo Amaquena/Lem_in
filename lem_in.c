@@ -2,55 +2,51 @@
 
 static void intitailze_values(t_farm **farm)
 {
-    (*farm)->rooms->name = NULL;
-    (*farm)->rooms->type = REG;
-    (*farm)->rooms->x = 0;
-    (*farm)->rooms->y = 0;
-    (*farm)->rooms->h = 0;
-    (*farm)->rooms->f = 0;
     (*farm)->rooms = NULL;
+    (*farm)->links = NULL;
     (*farm)->nbr_rooms = 0;
+    (*farm)->ants = 0;
 }
 
-static void count_ants(t_farm **farm)
+static void count_ants(t_farm **farm, char *line)
 {
-    char *line;
-
-    line = NULL;
-    if (get_next_line(0, &line) < 1)
-        error_msg("Error: Get next line read error.");
-    if (!ft_strisdigit(line))
-        error_msg("Error: Number of ants must be of interger type.");
     if (ft_atoi(line) < 1)
         error_msg("Error: Number of ant must be absolute.");
     (*farm)->ants = ft_atoi(line);
-    ft_putendl(line);
-    free(line);
 }
 
 static void initialize_map(t_farm **farm)
 {
     char *line;
     int type;
+    int ret;
 
     line = NULL;
-    while (get_next_line(0, &line))
+    while ((ret = get_next_line(0, &line)) > 0)
     {
-        if (ft_strequ(line, "##start"))
+        if (ft_strisdigit(line))
+            count_ants(farm, line);
+        else if (ft_strequ(line, "##start"))
             type = START;
-        if (ft_strequ(line, "##end"))
+        else if (ft_strequ(line, "##end"))
             type = END;
-        if (ft_strchr(line, ' ') && line[0] != '#')
+        else if (ft_strchr(line, ' ') && line[0] != '#')
         {
             verify_room(farm, line, type);
             type = REG;
         }
-        if (ft_strchr(line, '-') && line[0] != '#')
+        else if (ft_strchr(line, '-') && line[0] != '#')
             verify_links(farm, line);
+        else if (line[0] != '#')
+            error_msg("Error: Input not recognized.");
         ft_putendl(line);
     }
+    if (ret < 0)
+        error_msg("Error: Failed to read file.");
     if (!verify_start_end(farm))
         error_msg("Error: No start or end declared.");
+    if ((*farm)->ants < 1)
+        error_msg("Error: No ants on map.");
     free(line);
 }
 
@@ -58,9 +54,9 @@ int main(void)
 {
     t_farm *farm;
 
-    count_ants(&farm);
     intitailze_values(&farm);
     initialize_map(&farm);
+    print_lines(farm);
     // find_paths(&farm);
 
     return (0);

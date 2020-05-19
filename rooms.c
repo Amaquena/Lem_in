@@ -10,6 +10,7 @@ static void    create_room(t_farm **farm, char **room, int type)
     new_room->name = room[0];
     new_room->x = ft_atoi(room[1]);
     new_room->y = ft_atoi(room[2]);
+    new_room->f = 0;
     new_room->type = type;
     new_room->next = NULL;
     new_room->h = ++(*farm)->nbr_rooms;
@@ -49,8 +50,10 @@ void     verify_room(t_farm **farm, char *line, int type)
 {
     char **room;
     int count;
+    t_room *room_list;
 
     count = 0;
+    room_list = (*farm)->rooms;
     room = ft_strsplit(line, ' ');    
     while (room[count])
         count++;
@@ -58,5 +61,17 @@ void     verify_room(t_farm **farm, char *line, int type)
         error_msg("Error: Incorrect format for declaring room.");
     if (!ft_strisdigit(room[1]) || !ft_strisdigit(room[2]))
         error_msg("Error: Room coordinates must be of integer type.");
-    create_room(farm, room, type);
+    while (room_list)
+    {
+        if (ft_strequ(room_list->name, room[0]))
+        {
+            if (room_list->type == START)
+                error_msg("Error: Room alredy set as Start");
+            else if (room_list->type == END)
+                error_msg("Error: Room alredy set as End");
+        }
+        room_list = room_list->next;
+    }
+    if (!room_list)
+        create_room(farm, room, type);
 }
