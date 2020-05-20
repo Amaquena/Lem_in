@@ -51,23 +51,30 @@ struct      s_farm
 {
     int     ants;
     int     nbr_rooms;
+    char    **room;
+    char    **link;
+    char    *line;
     t_room  *rooms;
     t_link  *links;
 };
 
 /*
-** print funtions
+** Util funtions
 */
 
-void        error_msg(char *str);
+void        error_msg(char *str, t_farm *farm);
 void        print_lines(t_farm *farm);
+void        free_farm(t_farm *farm);
+void        free_room(char **room);
+void        free_link(char **link);
 
 /*
 ** intitilize funtions
 */
 
-void        verify_room(t_farm **farm, char *line, int type);
-int         verify_start_end(t_farm **farm);
-void        verify_links(t_farm **farm, char *line);
+void        verify_room(t_farm *farm, int type);
+int         verify_start_end(t_farm *farm);
+int         verify_start_not_end(t_farm *farm);
+void        verify_links(t_farm *farm);
 
 #endif

@@ -54,14 +54,14 @@ char			**ft_strsplit(char const *s, char c)
 	if (!s || !c)
 		return (NULL);
 	wcount = ft_wordcount(s, c);
-	if (!(str = (char **)malloc(sizeof(char *) * wcount + 1)))
+	if (!(str = (char **)malloc(sizeof(char *) * (wcount + 1))))
 		return (NULL);
 	j = 0;
 	while (j < wcount)
 	{
 		while (*s == c && *s)
 			s++;
-		if (!(str[j] = (char *)malloc(sizeof(char) * ft_wordlen(s, c) + 1)))
+		if (!(str[j] = (char *)malloc(sizeof(char) * (ft_wordlen(s, c) + 1))))
 			return (NULL);
 		k = 0;
 		while (*s && *s != c)

@@ -12,7 +12,7 @@
 
 NAME = lem_in.a
 LEM_IN = lem_in
-CFILES = display_functions.c rooms.c links.c solve.c
+CFILES = util.c rooms.c links.c solve.c
 OFILES = $(CFILES:.c=.o)
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
@@ -49,6 +49,13 @@ $(LEM_IN): $(NAME)
 debug:	re
 	$(CC) -g $(FLAGS) $(LEM_IN).c $(CFILES) $(LIBFT) -o $(LEM_IN)
 	@echo "______________________________________________________________________\n"
+
+main: lftre mainc
+	$(CC) $(FLAGS) main.c $(LIBFT) -o main
+
+mainc:
+	rm -fr main
+
 	
 # $(CHCK):  $(NAME)
 # 	$(CC) $(FLAGS) $(CHCK).c $(NAME) $(LIBFT) -o $(CHCK)
