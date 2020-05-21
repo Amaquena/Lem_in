@@ -35,21 +35,6 @@ static int set_link_weight(t_farm *farm)
         g = ((room1 * room2) / farm->nbr_rooms);
     return (g);
 }
-
-// static t_room	*find_room(char *name, t_room *room)
-// {
-// 	t_room	*tmp;
-
-// 	tmp = room;
-// 	while (tmp)
-// 	{
-// 		if (!ft_strcmp(tmp->name, name))
-// 			return (tmp);
-// 		tmp = tmp->next;
-// 	}
-// 	return (NULL);
-// }
-
 /*
     The commented funtion below was intended to add a list of all the rooms
     in the link member of the struct as a list, that way each room could

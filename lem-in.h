@@ -27,6 +27,13 @@
 typedef struct s_farm t_farm;
 typedef struct s_room t_room;
 typedef struct s_link t_link;
+typedef struct s_queue t_queue;
+
+struct          s_queue
+{
+    char        *name;
+    t_queue     *next;
+};
 
 struct          s_link
 {
@@ -42,7 +49,9 @@ struct      s_room
     int             type;
     int             x;
     int             y;
-    int             weight;
+    // int             weight;
+    int             depth;
+    int             visited;
     int             h;
     int             f;
     t_room          *next;
@@ -53,9 +62,12 @@ struct      s_farm
 {
     int     ants;
     int     nbr_rooms;
+    int     current_depth;
     char    **room;
     char    **link;
     char    *line;
+    char    *start;
+    char    *end;
     t_room  *rooms;
     t_link  *links;
 };
@@ -77,6 +89,6 @@ void        free_link(char **link);
 void        verify_room(t_farm *farm, int type);
 int         verify_start_end(t_farm *farm);
 void        verify_links(t_farm *farm);
-void        find_paths(t_farm *farm);
+void        find_path(t_farm *farm);
 
 #endif

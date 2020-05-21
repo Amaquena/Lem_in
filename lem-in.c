@@ -23,6 +23,7 @@ static void intitailze_values(t_farm *farm)
     // (*farm)->links->g = 0;
     farm->nbr_rooms = 0;
     farm->ants = 0;
+    farm->current_depth = 0;
     // (*farm) = NULL;
 }
 
@@ -69,7 +70,7 @@ static void initialize_map(t_farm *farm)
             verify_links(farm);
         else if (farm->line[0] != '#')
             error_msg("Error: Input not recognized.", farm);
-        ft_putendl(farm->line);
+        // ft_putendl(farm->line);
         ft_strdel(&farm->line);
     }
     if (ret < 0)
@@ -86,8 +87,8 @@ int main(void)
 
     intitailze_values(&farm);
     initialize_map(&farm);
-    print_lines(&farm);
-    // find_paths(&farm);
+    // print_lines(&farm);
+    find_path(&farm);
 
     free_farm(&farm);
     return (0);
