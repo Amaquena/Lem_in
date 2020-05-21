@@ -94,11 +94,21 @@ static void add_to_closed_queue(t_queue **open, t_queue **closed)
     }
 }
 
+static void adjust_depth(t_room *rooms)
+{
+    while (rooms)
+    {
+        rooms->depth -= 1;
+        rooms = rooms->next;
+    }
+}
+
 void find_path(t_farm *farm)
 {
     t_queue *open;
     t_queue *closed;
     t_room *rooms;
+    t_room *tmp_room;
     // t_queue *head_open;
 
     open = NULL;
@@ -111,10 +121,12 @@ void find_path(t_farm *farm)
     while (open)
     {
         find_linking_room(farm->links, open, farm->rooms);
-        set_depth(open, farm->rooms, ++farm->current_depth);
+        tmp_room = find_room(open->name, farm->rooms);
+        set_depth(open, farm->rooms, ++tmp_room->depth);
         add_to_closed_queue(&open, &closed);
         // open = open->next;
     }
+    adjust_depth(farm->rooms);
 
     while (open)
     {
