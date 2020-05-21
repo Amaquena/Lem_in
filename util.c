@@ -1,4 +1,4 @@
-#include "lem_in.h"
+#include "lem-in.h"
 
 void error_msg(char *str, t_farm *farm)
 {
@@ -43,7 +43,8 @@ void free_farm(t_farm *farm)
     {
         while (rooms)
         {
-            free(rooms->name);
+            // free(rooms->name);
+            ft_strdel(&rooms->name);
             free(rooms);
             rooms = rooms->next;
         }
@@ -53,8 +54,10 @@ void free_farm(t_farm *farm)
     {
         while (links)
         {
-            free(links->room1);
-            free(links->room2);
+            // free(links->room1);
+            // free(links->room2);
+            ft_strdel(&links->room1);
+            ft_strdel(&links->room2);
             free(links);
             links = links->next;
         }
@@ -62,10 +65,7 @@ void free_farm(t_farm *farm)
     free(rooms);
     free(links);
     if (farm->line)
-    {
-        free(farm->line);
-        farm->line = NULL;
-    }
+        ft_strdel(&farm->line);
 }
 
 void free_room(char **room)

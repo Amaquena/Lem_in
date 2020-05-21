@@ -1,4 +1,9 @@
-#include "lem_in.h"
+#include "lem-in.h"
+
+/*
+    Sets weights for each of the links for the rooms
+    to be used in path finding algorithm.
+*/
 
 static int set_link_weight(t_farm *farm)
 {
@@ -31,7 +36,66 @@ static int set_link_weight(t_farm *farm)
     return (g);
 }
 
-static void    create_links(t_farm *farm)
+// static t_room	*find_room(char *name, t_room *room)
+// {
+// 	t_room	*tmp;
+
+// 	tmp = room;
+// 	while (tmp)
+// 	{
+// 		if (!ft_strcmp(tmp->name, name))
+// 			return (tmp);
+// 		tmp = tmp->next;
+// 	}
+// 	return (NULL);
+// }
+
+/*
+    The commented funtion below was intended to add a list of all the rooms
+    in the link member of the struct as a list, that way each room could
+    have a list of all the rooms its connected too. Function works,
+    but was unable to free successfully .
+
+
+static void add_links(t_farm *farm, char *link1, char *link2)
+{
+    t_room *room1;
+    t_room *room2;
+    t_link *new_link;
+    t_link *room2_link;
+
+    room1 = find_room(link1, farm->rooms);
+    room2 = find_room(link2, farm->rooms);
+
+    new_link = (t_link *)malloc(sizeof(t_link));
+    new_link->room = room1;
+    new_link->next = NULL;
+
+    if (room2->links)
+    {
+        room2_link = room2->links;
+		while (room2_link->next)
+			room2_link = room2_link->next;
+		room2_link->next = new_link;
+    }
+    else
+    {
+        room2->links = new_link;
+    }
+}
+
+*/
+
+/*
+    create_link() mallocs space in memory for a new link,
+    this new link is given the inputs from farm->link and
+    sets all the other values as well.
+
+    farm->links holds a list of all the links that joins
+    rooms together.
+*/
+
+static void    create_link(t_farm *farm)
 {
     t_link  *head;
     t_link  *new_link;
@@ -54,6 +118,11 @@ static void    create_links(t_farm *farm)
         farm->links = new_link;
 }
 
+/*
+    This funtion validates that the links given are valid
+    names on the map.
+*/
+
 static int validate_links(t_farm *farm)
 {
     t_room *head;
@@ -72,6 +141,13 @@ static int validate_links(t_farm *farm)
     return (1);
 }
 
+/*
+    Verify funtions takes the farm->line and splits it into farm->link
+    farm->link is the check if it is a valid link that joins each room
+    together before storing it.
+    If all tests passes create_links() is then called.
+*/
+
 void verify_links(t_farm *farm)
 {
     int counter;
@@ -82,16 +158,21 @@ void verify_links(t_farm *farm)
         counter++;
     if (counter != 2)
     {
-        ft_strdel(&farm->line);
         free_link(farm->link);
         error_msg("Error: Incorrect format for declaring link.", farm);
     }
     if (!validate_links(farm))
     {
-        ft_strdel(&farm->line);
         free_link(farm->link);
         error_msg("Error: Invalid link, doesn't match any room.", farm);
     }
-    create_links(farm);
+    create_link(farm);
     free_link(farm->link);
+
+/*
+    Used instead of the create_links funtion, but cant free without segfault.
+  
+    add_links(farm, farm->link[0], farm->link[1]);
+    add_links(farm, farm->link[1], farm->link[0]);
+*/
 }

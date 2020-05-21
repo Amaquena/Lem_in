@@ -28,23 +28,25 @@ typedef struct s_farm t_farm;
 typedef struct s_room t_room;
 typedef struct s_link t_link;
 
-struct      s_link
+struct          s_link
 {
-    char    *room1;
-    char    *room2;
-    int     g;
-    t_link  *next;
+    char        *room1;
+    char        *room2;
+    int         g;
+    t_link      *next;
 };
 
 struct      s_room
 {
-    char    *name;
-    int     type;
-    int     x;
-    int     y;
-    int     h;
-    int     f;
-    t_room  *next;
+    char            *name;
+    int             type;
+    int             x;
+    int             y;
+    int             weight;
+    int             h;
+    int             f;
+    t_room          *next;
+    // t_link          *links;
 };
 
 struct      s_farm
@@ -74,7 +76,7 @@ void        free_link(char **link);
 
 void        verify_room(t_farm *farm, int type);
 int         verify_start_end(t_farm *farm);
-int         verify_start_not_end(t_farm *farm);
 void        verify_links(t_farm *farm);
+void        find_paths(t_farm *farm);
 
 #endif

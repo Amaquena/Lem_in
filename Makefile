@@ -10,8 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = lem_in.a
-LEM_IN = lem_in
+NAME = lem-in.a
+LEM-IN = lem-in
 CFILES = util.c rooms.c links.c solve.c
 OFILES = $(CFILES:.c=.o)
 CC = gcc
@@ -19,35 +19,35 @@ FLAGS = -Wall -Wextra -Werror
 LIBFT = -L./libft -lft
 
 lft:
-	$(MAKE) -C libft all
+	@$(MAKE) -C libft all
 lftclean:
-	$(MAKE) -C libft clean
+	@$(MAKE) -C libft clean
 lftfclean:
-	$(MAKE) -C libft fclean
+	@$(MAKE) -C libft fclean
 lftre:
-	$(MAKE) -C libft re
+	@$(MAKE) -C libft re
 
 $(NAME):
 	@$(CC) -c $(FLAGS) $(CFILES)
 	@ar rcs $(NAME) $(OFILES)
 
-all: $(LEM_IN)
+all: $(LEM-IN)
 clean:
 	@rm -f $(OFILES)
 
 fclean: clean
-	@rm -f $(LEM_IN)
+	@rm -f $(LEM-IN)
 	@rm -f $(NAME)
 re: fclean all
-	@echo "\t\t---COMPLETED---\n"
+	@echo "\n\t\t---COMPLETED---\n"
 
-$(LEM_IN): $(NAME)
-	$(CC) $(FLAGS) $(LEM_IN).c $(NAME) $(LIBFT) -o $(LEM_IN)
+$(LEM-IN): $(NAME)
+	$(CC) $(FLAGS) $(LEM-IN).c $(NAME) $(LIBFT) -o $(LEM-IN)
 
 
 
-debug:	re
-	$(CC) -g $(FLAGS) $(LEM_IN).c $(CFILES) $(LIBFT) -o $(LEM_IN)
+debug: re
+	$(CC) -g $(FLAGS) $(LEM-IN).c $(CFILES) $(LIBFT) -o $(LEM-IN)
 	@echo "______________________________________________________________________\n"
 
 main: lftre mainc
