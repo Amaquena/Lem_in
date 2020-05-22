@@ -33,6 +33,7 @@ struct          s_queue
 {
     char        *name;
     t_queue     *next;
+    t_queue     *prev;
 };
 
 struct          s_link
