@@ -1,5 +1,7 @@
 #include "lem-in.h"
 
+void output( t_queue *open, t_queue *closed, t_queue *path, t_room *rooms);
+
 static t_room	*find_room(char *name, t_room *room)
 {
 	t_room	*tmp;
@@ -43,20 +45,29 @@ static void add_to_open_queue(char *room, t_queue **open, t_room *rooms)
     }
 }
 
-static void	find_linking_room(t_link *links, t_queue *open, t_room *rooms)
+static void	find_linking_room(t_link *links, t_queue *open, t_farm *farm)
 {
     t_queue *tmp_open;
+    int flag = 0;
 
     tmp_open = open;
 	while (links)
 	{
 		if (ft_strequ(links->room1, open->name))
-            add_to_open_queue(links->room2, &open, rooms);
+        {
+            flag = 1;
+            add_to_open_queue(links->room2, &open, farm->rooms);
+        }
 		else if (ft_strequ(links->room2, open->name))
-            add_to_open_queue(links->room1, &open, rooms);
+        {
+            flag = 1;
+            add_to_open_queue(links->room1, &open, farm->rooms);
+        }
         open = tmp_open;
 		links = links->next;
 	}
+    if (!flag)
+        error_msg("Error: Start or end Dont link to any rooms", farm);
 }
 
 static void set_depth(t_queue *open, t_room *rooms, int depth)
@@ -79,11 +90,17 @@ static void add_to_closed_queue(t_queue **open, t_queue **closed)
     t_queue *tmp;
     t_queue *curr_closed;
 
-    if((*open))
+    if((*open) && (*open)->next)
     {
         tmp = (*open);
         (*open)->next->prev = NULL;
         (*open) = (*open)->next;
+    }
+    else if ((*open) && !(*open)->next)
+    {
+        tmp = (*open);
+        tmp->next = NULL;
+        (*open) = NULL;
     }
 
     tmp->next = NULL;
@@ -102,13 +119,16 @@ static void add_to_closed_queue(t_queue **open, t_queue **closed)
     }
 }
 
-static void adjust_depth(t_room *rooms)
+static int adjust_depth(t_room *rooms)
 {
     while (rooms)
     {
         rooms->depth -= 1;
+        if (rooms->type == END && rooms->depth < 0)
+            return (0);
         rooms = rooms->next;
     }
+    return (1);
 }
 
 static int check_if_end_found(t_queue *closed, t_room *rooms)
@@ -128,34 +148,40 @@ void find_path(t_farm *farm)
     t_queue *open;
     t_queue *closed;
     t_queue *path;
-    t_room *rooms;
     t_room *tmp_room;
 
     open = NULL;
     closed = NULL;
     path = NULL;
-    rooms = farm->rooms;
-    
+
     add_to_open_queue(farm->start, &open, farm->rooms);
     while (open)
     {
-        find_linking_room(farm->links, open, farm->rooms);
+        find_linking_room(farm->links, open, farm);
         tmp_room = find_room(open->name, farm->rooms);
         set_depth(open, farm->rooms, ++tmp_room->depth);
         add_to_closed_queue(&open, &closed);
         if (check_if_end_found(closed, farm->rooms))
             break;
     }
-    // while (!ft_strequ(path->name, farm->start))
-    // {
-    //     while (closed->next)
-    //         closed = closed->next;
-    //     path = (t_queue *)malloc(sizeof(t_queue));
-    //     path->name = ft_strdup
-    // }
-    adjust_depth(farm->rooms);
+    if (!adjust_depth(farm->rooms))
+        error_msg("Error: Start room doesn't link to End.", farm);
+
+    // add_to_closed_queue(&closed, &path);
+    output(open, closed, path, farm->rooms);
 
 
+
+    // exit(1);
+
+
+    // find_linking_room(farm->links, open, farm->rooms);
+    // set_depth(open, farm->rooms, ++farm->current_depth);
+    // add_to_closed_queue(&open, &closed);
+}
+
+void output( t_queue *open, t_queue *closed, t_queue *path, t_room *rooms)
+{
     while (open)
     {
         printf("open->name: %s\n", open->name);
@@ -170,17 +196,18 @@ void find_path(t_farm *farm)
         closed = closed->next;
     }
     ft_putchar('\n');
+    while (path)
+    {
+        printf("path->name: %s\n", path->name);
+        path = path->next;
+    }
+    ft_putchar('\n');
     while (rooms)
     {
         printf("room: %s;\troom->depth: %d\tvisited: %d\n", rooms->name, rooms->depth, rooms->visited);
         rooms = rooms->next;
     }
-    // exit(1);
 
-
-    // find_linking_room(farm->links, open, farm->rooms);
-    // set_depth(open, farm->rooms, ++farm->current_depth);
-    // add_to_closed_queue(&open, &closed);
 }
 
 // static void set_start_end_weight(t_room *rooms, int nbr_rooms)
