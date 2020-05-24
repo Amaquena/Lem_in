@@ -127,13 +127,13 @@ void find_path(t_farm *farm)
 {
     t_queue *open;
     t_queue *closed;
-    t_queue *path;
+    // t_queue *path;
     t_room *rooms;
     t_room *tmp_room;
 
     open = NULL;
     closed = NULL;
-    path = NULL;
+    // path = NULL;
     rooms = farm->rooms;
     
     add_to_open_queue(farm->start, &open, farm->rooms);
@@ -151,7 +151,7 @@ void find_path(t_farm *farm)
     //     while (closed->next)
     //         closed = closed->next;
     //     path = (t_queue *)malloc(sizeof(t_queue));
-    //     path->name = ft_strdup
+    //     path->name = ft_strdup;
     // }
     adjust_depth(farm->rooms);
 

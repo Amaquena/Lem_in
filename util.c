@@ -34,7 +34,9 @@ void print_lines(t_farm *farm)
 void free_farm(t_farm *farm)
 {
     t_room *rooms;
+    t_room *nextroom;
     t_link *links;
+    t_link *nextlink;
 
     rooms = farm->rooms;
     links = farm->links;
@@ -45,8 +47,9 @@ void free_farm(t_farm *farm)
         {
             // free(rooms->name);
             ft_strdel(&rooms->name);
+            nextroom = rooms->next;
             free(rooms);
-            rooms = rooms->next;
+            rooms = nextroom;
         }
     }
 
@@ -58,8 +61,9 @@ void free_farm(t_farm *farm)
             // free(links->room2);
             ft_strdel(&links->room1);
             ft_strdel(&links->room2);
+            nextlink = links->next;
             free(links);
-            links = links->next;
+            links = nextlink;
         }
     }
     free(rooms);
