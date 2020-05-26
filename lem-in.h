@@ -28,6 +28,7 @@ typedef struct s_farm t_farm;
 typedef struct s_room t_room;
 typedef struct s_link t_link;
 typedef struct s_queue t_queue;
+typedef struct  s_ants t_ants;
 
 struct          s_queue
 {
@@ -71,11 +72,11 @@ struct      s_farm
     t_queue **paths;
 };
 
-typedef struct  s_ants
+struct          s_ants
 {
     int         length;
     char        **rooms;
-}               t_ants;
+};
 
 /*
 ** Util funtions

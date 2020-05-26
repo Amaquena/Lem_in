@@ -155,7 +155,6 @@ static void add_to_path_queue(t_room *room, t_queue **path, t_farm *farm)
     {
         if (ft_strequ(room->name, tmp_path->name))
         {
-            printf("room name: %s\n", room->name);
             flag = 1;
             break;
         }
@@ -235,18 +234,43 @@ static void find_path(t_farm *farm, t_queue **path, t_queue *closed)
     }
 }
 
-static void reset_rooms(t_farm *farm)
+static void reset_rooms(t_farm *farm, t_queue **open, t_queue **closed)
 {
     t_room *rooms;
+    t_queue *tmp;
+    t_queue *pop;
+
     rooms = farm->rooms;
     while (rooms)
     {
         if (rooms->type == START || rooms->type == END)
-        {
             rooms->lock = 0;
-            rooms->visited = 0;
-        }
+        if (rooms->lock == 0)
+            rooms->depth = 0;
+        rooms->visited = 0;
         rooms = rooms->next;
+    }
+    if ((*open))
+    {
+        tmp = (*open);
+        while (tmp)
+        {
+            pop = tmp;
+            tmp = tmp->next;
+            ft_strdel(&pop->name);
+            ft_memdel((void **)&pop);
+        }
+    }
+    if ((*closed))
+    {
+        tmp = (*closed);
+        while (tmp)
+        {
+            pop = tmp;
+            tmp = tmp->next;
+            ft_strdel(&pop->name);
+            ft_memdel((void **)&pop);
+        }
     }
 }
 
@@ -292,9 +316,9 @@ void solve(t_farm *farm)
     }
     if (!adjust_depth(farm->rooms))
         error_msg("Error: Start room doesn't link to End.", farm);
-
     find_path(farm, &path[0], closed);
-    reset_rooms(farm);
+    reset_rooms(farm, &open, &closed);
+    // output(open, closed, path, farm->rooms);
 }
 
 // void output(t_queue *open, t_queue *closed, t_queue **path, t_room *rooms)

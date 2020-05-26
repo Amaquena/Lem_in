@@ -84,10 +84,6 @@ void output_farm(t_farm *farm)
 
     path = convert_path(farm);
     path_count = 1;
-    if (!path_count)
-    {
-        exit(1);
-    }
     keep = 1;
     cycles = 1;
     while (keep)

@@ -61,7 +61,7 @@ static void initialize_map(t_farm *farm)
             verify_links(farm);
         else if (farm->line[0] != '#')
             error_msg("Error: Input not recognized.", farm);
-        ft_putendl(farm->line);
+        // ft_putendl(farm->line);
         ft_strdel(&farm->line);
     }
     if (ret < 0)
@@ -76,11 +76,10 @@ int main(void)
 {
     t_farm farm;
 
-
     intitailze_values(&farm);
     initialize_map(&farm);
     solve(&farm);
-    output_farm(&farm);
+    // output_farm(&farm);
     free_farm(&farm);
     return (0);
 }
