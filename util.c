@@ -33,7 +33,7 @@ t_ants convert_path(t_farm *farm)
     }
 
     path = farm->paths[0];
-    ants.rooms = malloc(sizeof(char *) * count);
+    ants.rooms = malloc(sizeof(char *) * (count + 1));
     ants.length = count;
     while (path)
     {
@@ -44,7 +44,6 @@ t_ants convert_path(t_farm *farm)
     ants.rooms[i] = NULL;
     return (ants);
 }
-
 
 int print_cycle(int cycle, int ants, int paths_count, t_ants paths)
 {
@@ -99,7 +98,9 @@ void free_farm(t_farm *farm)
 {
 
     t_room *rooms;
+    t_room *nextroom;
     t_link *links;
+    t_link *nextlink;
 
     rooms = farm->rooms;
     links = farm->links;
@@ -110,8 +111,9 @@ void free_farm(t_farm *farm)
         {
             // free(rooms->name);
             ft_strdel(&rooms->name);
+            nextroom = rooms->next;
             free(rooms);
-            rooms = rooms->next;
+            rooms = nextroom;
         }
     }
 
@@ -123,8 +125,9 @@ void free_farm(t_farm *farm)
             // free(links->room2);
             ft_strdel(&links->room1);
             ft_strdel(&links->room2);
+            nextlink = links->next;
             free(links);
-            links = links->next;
+            links = nextlink;
         }
     }
     free(rooms);
