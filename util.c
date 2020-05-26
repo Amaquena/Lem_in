@@ -33,7 +33,7 @@ t_ants convert_path(t_farm *farm)
     }
 
     path = farm->paths[0];
-    ants.rooms = malloc(sizeof(char *) * count);
+    ants.rooms = malloc(sizeof(char *) * (count + 1));
     ants.length = count;
     while (path)
     {
@@ -44,7 +44,6 @@ t_ants convert_path(t_farm *farm)
     ants.rooms[i] = NULL;
     return (ants);
 }
-
 
 int print_cycle(int cycle, int ants, int paths_count, t_ants paths)
 {
