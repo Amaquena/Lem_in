@@ -9,30 +9,99 @@ void error_msg(char *str, t_farm *farm)
     exit(EXIT_FAILURE);
 }
 
-void print_lines(t_farm *farm)
+void print_a_line(int ant, char *room)
 {
-    t_room *rooms = farm->rooms;
-    t_link *links = farm->links;
+    ft_putchar('L');
+    ft_putnbr(ant);
+    ft_putchar('-');
+    ft_putstr(room);
+}
 
-    printf("\nNumber of ants: %d\n", farm->ants);
-    printf("Number of rooms: %d\n", farm->nbr_rooms);
+t_ants convert_path(t_farm *farm)
+{
+    t_queue *path;
+    t_ants ants;
+    int i = 0;
+    int count;
 
-    while (rooms)
+    count = 0;
+    path = farm->paths[0];
+    while (path)
     {
-        printf("\nRoom name:\t%s\nRoom type:\t%d\nRoom x:\t%d\nRoom y:\t%d\nRoom h:\t%d\nRoom f:\t%d\n",
-               rooms->name, rooms->type, rooms->x, rooms->y, rooms->h, rooms->f);
-        rooms = rooms->next;
+        count++;
+        path = path->next;
     }
-    while (links)
+
+    path = farm->paths[0];
+    ants.rooms = malloc(sizeof(char *) * count);
+    ants.length = count;
+    while (path)
     {
-        printf("\nLink room1:\t%s\nlink room2:\t%s\nlink g:\t%d\n",
-               links->room1, links->room2, links->g);
-        links = links->next;
+        ants.rooms[i] = ft_strdup(path->name);
+        i++;
+        path = path->next;
+    }
+    ants.rooms[i] = NULL;
+    return (ants);
+}
+
+
+int print_cycle(int cycle, int ants, int paths_count, t_ants paths)
+{
+    int keep;
+    int space;
+    int ant;
+    int i;
+    int j;
+
+    keep = 0;
+    space = 0;
+    i = -1;
+    while (++i < paths_count)
+    {
+        j = 0;
+        while (++j < paths.length)
+        {
+            ant = (cycle - j) * paths_count + i + 1;
+            if (ant <= ants && ant > 0)
+            {
+                keep = 1;
+                if (space || (space++ && !space))
+                    ft_putchar(' ');
+                print_a_line(ant, paths.rooms[j]);
+            }
+        }
+    }
+    return (keep);
+}
+
+void output_farm(t_farm *farm)
+{
+    int path_count;
+    int keep;
+    int cycles;
+    t_ants path;
+
+    path = convert_path(farm);
+    path_count = 1;
+    if (!path_count)
+    {
+        exit(1);
+    }
+    keep = 1;
+    cycles = 1;
+    while (keep)
+    {
+        keep = 0;
+        ft_putchar('\n');
+        keep = print_cycle(cycles, farm->ants, path_count, path);
+        cycles++;
     }
 }
 
 void free_farm(t_farm *farm)
 {
+
     t_room *rooms;
     t_link *links;
 

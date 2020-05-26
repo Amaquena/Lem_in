@@ -40,7 +40,6 @@ struct          s_link
 {
     char        *room1;
     char        *room2;
-    int         g;
     t_link      *next;
 };
 
@@ -50,13 +49,10 @@ struct      s_room
     int             type;
     int             x;
     int             y;
-    // int             weight;
     int             depth;
     int             visited;
-    int             h;
-    int             f;
+    int             lock;
     t_room          *next;
-    // t_link          *links;
 };
 
 struct      s_farm
@@ -64,6 +60,7 @@ struct      s_farm
     int     ants;
     int     nbr_rooms;
     int     current_depth;
+    int     lock;
     char    **room;
     char    **link;
     char    *line;
@@ -71,17 +68,24 @@ struct      s_farm
     char    *end;
     t_room  *rooms;
     t_link  *links;
+    t_queue **paths;
 };
+
+typedef struct  s_ants
+{
+    int         length;
+    char        **rooms;
+}               t_ants;
 
 /*
 ** Util funtions
 */
 
 void        error_msg(char *str, t_farm *farm);
-void        print_lines(t_farm *farm);
 void        free_farm(t_farm *farm);
 void        free_room(char **room);
 void        free_link(char **link);
+void        output_farm(t_farm *farm);
 
 /*
 ** intitilize funtions
@@ -90,6 +94,6 @@ void        free_link(char **link);
 void        verify_room(t_farm *farm, int type);
 int         verify_start_end(t_farm *farm);
 void        verify_links(t_farm *farm);
-void        find_path(t_farm *farm);
+void        solve(t_farm *farm);
 
 #endif
