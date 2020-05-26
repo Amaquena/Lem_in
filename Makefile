@@ -50,7 +50,7 @@ debug: re
 	$(CC) -g $(FLAGS) $(LEM-IN).c $(CFILES) $(LIBFT) -o $(LEM-IN)
 	@echo "______________________________________________________________________\n"
 
-main: lftre mainc
+main: mainc
 	$(CC) $(FLAGS) main.c $(LIBFT) -o main
 
 mainc:

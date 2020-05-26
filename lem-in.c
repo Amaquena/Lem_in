@@ -6,25 +6,16 @@
 */
 static void intitailze_values(t_farm *farm)
 {
-    // printf("links: %ld\trooms: %ld\tfarm: %ld\n", sizeof(t_link), sizeof(t_room), sizeof(t_farm));
-    // (*farm)->rooms->name = NULL;
-    // (*farm)->rooms->type = 0;
-    // (*farm)->rooms->x = 0;
-    // (*farm)->rooms->y = 0;
-    // (*farm)->rooms->h = 0;
-    // (*farm)->rooms->f = 0;
     farm->rooms = NULL;
+    farm->paths = NULL;
     farm->line = NULL;
     farm->room = NULL;
     farm->link = NULL;
     farm->links = NULL;
-    // (*farm)->links->room1 = NULL;
-    // (*farm)->links->room2 = NULL;
-    // (*farm)->links->g = 0;
+    farm->lock = 1;
     farm->nbr_rooms = 0;
     farm->ants = 0;
     farm->current_depth = 0;
-    // (*farm) = NULL;
 }
 
 /*
@@ -70,7 +61,7 @@ static void initialize_map(t_farm *farm)
             verify_links(farm);
         else if (farm->line[0] != '#')
             error_msg("Error: Input not recognized.", farm);
-        // ft_putendl(farm->line);
+        ft_putendl(farm->line);
         ft_strdel(&farm->line);
     }
     if (ret < 0)
@@ -85,11 +76,11 @@ int main(void)
 {
     t_farm farm;
 
+
     intitailze_values(&farm);
     initialize_map(&farm);
-    // print_lines(&farm);
-    find_path(&farm);
-
+    solve(&farm);
+    output_farm(&farm);
     free_farm(&farm);
     return (0);
 }

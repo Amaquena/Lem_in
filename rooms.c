@@ -20,14 +20,11 @@ static void create_room(t_farm *farm, int type)
     new_room->name = ft_strdup(farm->room[0]);
     new_room->x = ft_atoi(farm->room[1]);
     new_room->y = ft_atoi(farm->room[2]);
-    // new_room->weight = INT_MAX - 1;
     new_room->visited = 0;
+    new_room->lock = 0;
     new_room->depth = 0;
-    // new_room->links = NULL;
-    new_room->f = 0;
     new_room->type = type;
     new_room->next = NULL;
-    new_room->h = ++farm->nbr_rooms;
     if (type == START)
         farm->start = ft_strdup(farm->room[0]);
     if (type == END)
