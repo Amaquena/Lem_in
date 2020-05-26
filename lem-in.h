@@ -62,6 +62,7 @@ struct s_farm
     int nbr_rooms;
     int current_depth;
     int lock;
+    int path_count;
     char **room;
     char **link;
     char *line;

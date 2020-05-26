@@ -296,12 +296,11 @@ void solve(t_farm *farm)
     t_queue *closed;
     t_queue **path;
     t_room *tmp_room;
-    int path_count;
 
     open = NULL;
     closed = NULL;
-    path_count = count_paths(farm->links, farm->start);
-    farm->paths = (t_queue **)ft_memalloc(sizeof(t_queue *) * path_count + 1);
+    farm->path_count = count_paths(farm->links, farm->start);
+    farm->paths = (t_queue **)ft_memalloc(sizeof(t_queue *) * farm->path_count + 1);
     path = farm->paths;
 
     add_to_open_queue(farm->start, &open, farm->rooms);

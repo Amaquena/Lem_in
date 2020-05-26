@@ -101,15 +101,31 @@ void free_farm(t_farm *farm)
     t_room *nextroom;
     t_link *links;
     t_link *nextlink;
+    t_queue **paths;
+    t_queue *nextpath;
+    size_t i;
 
     rooms = farm->rooms;
     links = farm->links;
+    paths = farm->paths;
+    i = 0;
+
+    if (paths && paths[i])
+    {
+        while (paths && paths[i])
+        {
+            nextpath = paths[i]->next;
+            ft_strdel(&paths[i]->name);
+            ft_memdel((void **)&paths[i]);
+            paths[i] = nextpath;
+            // i++;
+        }
+    }
 
     if (rooms)
     {
         while (rooms)
         {
-            // free(rooms->name);
             ft_strdel(&rooms->name);
             nextroom = rooms->next;
             free(rooms);
@@ -121,8 +137,6 @@ void free_farm(t_farm *farm)
     {
         while (links)
         {
-            // free(links->room1);
-            // free(links->room2);
             ft_strdel(&links->room1);
             ft_strdel(&links->room2);
             nextlink = links->next;
@@ -132,6 +146,7 @@ void free_farm(t_farm *farm)
     }
     free(rooms);
     free(links);
+    free(paths);
     if (farm->line)
         ft_strdel(&farm->line);
 }

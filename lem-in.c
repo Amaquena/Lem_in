@@ -13,6 +13,7 @@ static void intitailze_values(t_farm *farm)
     farm->link = NULL;
     farm->links = NULL;
     farm->lock = 1;
+    farm->path_count = 0;
     farm->nbr_rooms = 0;
     farm->ants = 0;
     farm->current_depth = 0;
