@@ -6,13 +6,13 @@
 #    By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/19 12:39:12 by amaquena          #+#    #+#              #
-#    Updated: 2020/05/27 19:58:22 by krissyleemc      ###   ########.fr        #
+#    Updated: 2020/05/27 20:41:17 by krissyleemc      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = lem-in.a
 LEM-IN = lem-in
-CFILES = util.c rooms.c links.c solve.c
+CFILES = util.c rooms.c links.c solve.c free.c solve_assist.c solve_assist2.c
 OFILES = $(CFILES:.c=.o)
 CC = gcc
 FLAGS = -Wall -Wextra -Werror -ggdb3 -g
@@ -57,8 +57,3 @@ debug: re
 	$(CC) -g $(FLAGS) $(LEM-IN).c $(CFILES) $(LIBFT) -o $(LEM-IN)
 	@echo "______________________________________________________________________\n"
 
-# main: mainc
-# 	$(CC) $(FLAGS) main.c $(LIBFT) -o main
-
-# mainc:
-# 	rm -fr main

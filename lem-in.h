@@ -28,7 +28,7 @@ typedef struct s_farm t_farm;
 typedef struct s_room t_room;
 typedef struct s_link t_link;
 typedef struct s_queue t_queue;
-typedef struct  s_ants t_ants;
+typedef struct s_ants t_ants;
 
 struct s_queue
 {
@@ -73,10 +73,10 @@ struct s_farm
     t_queue **paths;
 };
 
-struct          s_ants
+struct s_ants
 {
-    int         length;
-    char        **rooms;
+    int length;
+    char **rooms;
 };
 
 /*
@@ -91,7 +91,20 @@ t_room *find_room(char *name, t_room *room);
 void output_farm(t_farm *farm);
 
 /*
-** intitilize funtions
+** assist funtions
+*/
+
+void add_to_open_queue(char *room, t_queue **open, t_room *rooms);
+void add_to_closed_queue(t_queue **open, t_queue **closed);
+void add_to_path_queue(t_room *room, t_queue **path, t_farm *farm);
+void set_depth(t_queue *open, t_room *rooms, int depth);
+int adjust_depth(t_room *rooms);
+void find_linking_room(t_link *links, t_queue *open, t_farm *farm);
+int find_on_closed(t_queue *closed, char *name);
+int check_if_end_found(t_queue *closed, t_room *rooms);
+
+/*
+** initialize funtions
 */
 
 void verify_room(t_farm *farm, int type);
