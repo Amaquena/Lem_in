@@ -6,7 +6,7 @@
 #    By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/19 12:39:12 by amaquena          #+#    #+#              #
-#    Updated: 2020/05/27 20:41:17 by krissyleemc      ###   ########.fr        #
+#    Updated: 2020/05/27 20:47:43 by krissyleemc      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ clean:
 	@rm -f $(OFILES)
 
 fclean: clean
-	@echo "\ncleaning libft..."
+	@echo "\ncleaning libft...\n"
 	@cd libft && make fclean
 	@echo "___________________________________"
 	@echo "\nlibft cleaned successfully"
@@ -42,7 +42,7 @@ re: fclean all
 	@echo "\n\t\t---COMPLETED---\n"
 
 $(LEM-IN): $(NAME)
-	@echo "\ncompiling libft..."
+	@echo "\ncompiling libft...\n"
 	@cd libft && make all
 	@echo "___________________________________"
 	@echo "\nlibft compiled successfully"
@@ -51,7 +51,7 @@ $(LEM-IN): $(NAME)
 	@$(CC) $(FLAGS) $(LEM-IN).c $(NAME) $(LIBFT) -o $(LEM-IN)
 	@echo "___________________________________"
 	@echo "\nLem-in compiled successfully"
-	@echo "___________________________________"
+	@echo "___________________________________\n"
 
 debug: re
 	$(CC) -g $(FLAGS) $(LEM-IN).c $(CFILES) $(LIBFT) -o $(LEM-IN)
