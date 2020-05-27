@@ -6,7 +6,7 @@
 #    By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/19 12:39:12 by amaquena          #+#    #+#              #
-#    Updated: 2020/05/27 20:47:43 by krissyleemc      ###   ########.fr        #
+#    Updated: 2020/05/27 21:08:43 by krissyleemc      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ fclean: clean
 	@rm -f $(NAME)
 	@echo "___________________________________"
 	@echo "\nLem-in cleaned successfully"
-	@echo "___________________________________"
+	@echo "___________________________________\n"
 re: fclean all
 	@echo "\n\t\t---COMPLETED---\n"
 

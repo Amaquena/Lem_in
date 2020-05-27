@@ -9,10 +9,10 @@
     rooms together.
 */
 
-static void    create_link(t_farm *farm)
+static void create_link(t_farm *farm)
 {
-    t_link  *head;
-    t_link  *new_link;
+    t_link *head;
+    t_link *new_link;
 
     head = farm->links;
     if (!(new_link = (t_link *)malloc(sizeof(t_link))))
@@ -47,7 +47,7 @@ static int validate_links(t_farm *farm)
         return (0);
 
     head = farm->rooms;
-    while (head && !ft_strequ(head->name,farm->link[1]))
+    while (head && !ft_strequ(head->name, farm->link[1]))
         head = head->next;
     if (!head)
         return (0);
@@ -82,7 +82,7 @@ void verify_links(t_farm *farm)
     create_link(farm);
     free_link(farm->link);
 
-/*
+    /*
     Used instead of the create_links funtion, but cant free without segfault.
   
     add_links(farm, farm->link[0], farm->link[1]);

@@ -26,12 +26,12 @@ static void intitailze_values(t_farm *farm)
 static void count_ants(t_farm *farm)
 {
     if (ft_atoi(farm->line) < 1)
-        error_msg("Error: Number of ant must be absolute.", farm);
+        error_msg("Error: No ants on map.", farm);
     farm->ants = ft_atoi(farm->line);
 }
 
 /*
-    This is the main initializion functions which uses gnl to read
+    This is the main initialization functions which uses gnl to read
     a file from STDIN and verify that the contents of the file is
     valid and calls the appropriate functions to store ants, rooms
     and links in the farm struct.
