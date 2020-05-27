@@ -31,7 +31,7 @@ static void count_ants(t_farm *farm)
 }
 
 /*
-    This is the main initializion funtions which uses gnl to read
+    This is the main initializion functions which uses gnl to read
     a file from STDIN and verify that the contents of the file is
     valid and calls the appropriate functions to store ants, rooms
     and links in the farm struct.
@@ -75,7 +75,6 @@ static void initialize_map(t_farm *farm)
 int main(void)
 {
     t_farm farm;
-
 
     intitailze_values(&farm);
     initialize_map(&farm);
