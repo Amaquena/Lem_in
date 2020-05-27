@@ -6,7 +6,7 @@
 #    By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/19 12:39:12 by amaquena          #+#    #+#              #
-#    Updated: 2020/05/27 09:31:51 by krissyleemc      ###   ########.fr        #
+#    Updated: 2020/05/27 19:58:22 by krissyleemc      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,17 +15,8 @@ LEM-IN = lem-in
 CFILES = util.c rooms.c links.c solve.c
 OFILES = $(CFILES:.c=.o)
 CC = gcc
-FLAGS = -Wall -Wextra -Werror -ggdb3
+FLAGS = -Wall -Wextra -Werror -ggdb3 -g
 LIBFT = -L./libft -lft
-
-lft:
-	@$(MAKE) -C libft all
-lftclean:
-	@$(MAKE) -C libft clean
-lftfclean:
-	@$(MAKE) -C libft fclean
-lftre:
-	@$(MAKE) -C libft re
 
 $(NAME):
 	@$(CC) -c $(FLAGS) $(CFILES)

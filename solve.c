@@ -303,7 +303,7 @@ void solve(t_farm *farm)
     open = NULL;
     closed = NULL;
     farm->path_count = count_paths(farm->links, farm->start);
-    farm->paths = (t_queue **)ft_memalloc(sizeof(t_queue *) * farm->path_count + 1);
+    farm->paths = (t_queue **)ft_memalloc(sizeof(t_queue *) * (farm->path_count + 1));
     path = farm->paths;
 
     int current_path = 0;
