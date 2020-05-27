@@ -1,8 +1,8 @@
 #include "lem-in.h"
 
-void output(t_queue *open, t_queue *closed, t_queue **path, t_room *rooms);
+void output(t_queue *open, t_queue *closed, t_queue **path, t_room *rooms, int path_count);
 
-static t_room *find_room(char *name, t_room *room)
+t_room *find_room(char *name, t_room *room)
 {
     t_room *tmp;
 
@@ -23,7 +23,7 @@ static void add_to_open_queue(char *room, t_queue **open, t_room *rooms)
     t_room *tmp_room;
 
     tmp_room = find_room(room, rooms);
-    if (tmp_room->visited == 0)
+    if (tmp_room->visited == 0 && tmp_room->lock == 0)
     {
         tmp_room->visited = 1;
         new_open = (t_queue *)ft_memalloc(sizeof(t_queue));
@@ -151,6 +151,7 @@ static void add_to_path_queue(t_room *room, t_queue **path, t_farm *farm)
     room->lock = farm->lock;
     tmp_path = path[0];
     flag = 0;
+
     while (tmp_path)
     {
         if (ft_strequ(room->name, tmp_path->name))
@@ -261,6 +262,7 @@ static void reset_rooms(t_farm *farm, t_queue **open, t_queue **closed)
             ft_memdel((void **)&pop);
         }
     }
+    (*open) = NULL;
     if ((*closed))
     {
         tmp = (*closed);
@@ -272,6 +274,7 @@ static void reset_rooms(t_farm *farm, t_queue **open, t_queue **closed)
             ft_memdel((void **)&pop);
         }
     }
+    (*closed) = NULL;
 }
 
 static int count_paths(t_link *links, char *start)
@@ -303,24 +306,30 @@ void solve(t_farm *farm)
     farm->paths = (t_queue **)ft_memalloc(sizeof(t_queue *) * farm->path_count + 1);
     path = farm->paths;
 
-    add_to_open_queue(farm->start, &open, farm->rooms);
-    while (open)
+    int current_path = 0;
+    while (current_path < farm->path_count)
     {
-        find_linking_room(farm->links, open, farm);
-        tmp_room = find_room(open->name, farm->rooms);
-        set_depth(open, farm->rooms, ++tmp_room->depth);
-        add_to_closed_queue(&open, &closed);
-        if (check_if_end_found(closed, farm->rooms))
-            break;
+        add_to_open_queue(farm->start, &open, farm->rooms);
+        while (open)
+        {
+            find_linking_room(farm->links, open, farm);
+            tmp_room = find_room(open->name, farm->rooms);
+            set_depth(open, farm->rooms, ++tmp_room->depth);
+            add_to_closed_queue(&open, &closed);
+            if (check_if_end_found(closed, farm->rooms))
+                break;
+        }
+        if (adjust_depth(farm->rooms))
+            find_path(farm, &path[current_path], closed);
+        reset_rooms(farm, &open, &closed);
+        current_path++;
     }
-    if (!adjust_depth(farm->rooms))
-        error_msg("Error: Start room doesn't link to End.", farm);
-    find_path(farm, &path[0], closed);
-    reset_rooms(farm, &open, &closed);
-    // output(open, closed, path, farm->rooms);
+    path[current_path] = NULL;
+
+    // output(open, closed, path, farm->rooms, farm->path_count);
 }
 
-// void output(t_queue *open, t_queue *closed, t_queue **path, t_room *rooms)
+// void output(t_queue *open, t_queue *closed, t_queue **path, t_room *rooms, int path_count)
 // {
 //     int i = 0;
 //     while (open)
@@ -328,19 +337,27 @@ void solve(t_farm *farm)
 //         printf("open->name: %s\n", open->name);
 //         open = open->next;
 //     }
-//     ft_putchar('\n');
+//     if (open)
+//         ft_putchar('\n');
 //     while (closed)
 //     {
 //         printf("closed->name: %s\n", closed->name);
 //         closed = closed->next;
 //     }
-//     ft_putchar('\n');
-//     while (path[i])
+//     if (closed)
+//         ft_putchar('\n');
+//     while (i < path_count)
 //     {
-//         printf("path->name: %s\n", path[i]->name);
-//         path[i] = path[i]->next;
+//         while (path[i])
+//         {
+//             printf("path->name: %s\n", path[i]->name);
+//             path[i] = path[i]->next;
+//         }
+//         i++;
+//         ft_putchar('\n');
 //     }
-//     ft_putchar('\n');
+//     if (path)
+//         ft_putchar('\n');
 //     while (rooms)
 //     {
 //         printf("room: %s;\tdepth: %d\tvisited: %d\tlock: %d\n", rooms->name, rooms->depth, rooms->visited, rooms->lock);

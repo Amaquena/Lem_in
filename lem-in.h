@@ -87,6 +87,7 @@ void error_msg(char *str, t_farm *farm);
 void free_farm(t_farm *farm);
 void free_room(char **room);
 void free_link(char **link);
+t_room *find_room(char *name, t_room *room);
 void output_farm(t_farm *farm);
 
 /*

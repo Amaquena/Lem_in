@@ -62,7 +62,7 @@ static void initialize_map(t_farm *farm)
             verify_links(farm);
         else if (farm->line[0] != '#')
             error_msg("Error: Input not recognized.", farm);
-        // ft_putendl(farm->line);
+        ft_putendl(farm->line);
         ft_strdel(&farm->line);
     }
     if (ret < 0)
@@ -73,6 +73,41 @@ static void initialize_map(t_farm *farm)
         error_msg("Error: No ants on map.", farm);
 }
 
+int verify_paths(t_farm *farm)
+{
+    t_queue *path;
+    t_room *room;
+    int current_path;
+    int path_count;
+    int flag;
+
+    path_count = 0;
+    while (farm->paths[path_count])
+        path_count++;
+
+    current_path = 0;
+    while (current_path < path_count)
+    {
+        path = farm->paths[current_path];
+        flag = 0;
+        while (path)
+        {
+            room = find_room(path->name, farm->rooms);
+            if (room->type == START)
+                flag++;
+            if (room->type == END)
+                flag++;
+            path = path->next;
+        }
+        if (flag != 2)
+            return (0);
+        current_path++;
+    }
+    if (!path_count)
+        return (0);
+    return (1);
+}
+
 int main(void)
 {
     t_farm farm;
@@ -80,7 +115,10 @@ int main(void)
     intitailze_values(&farm);
     initialize_map(&farm);
     solve(&farm);
-    // output_farm(&farm);
+    if (verify_paths(&farm))
+        output_farm(&farm);
+    else
+        error_msg("Error: Start room doesn't link to End.", &farm);
     free_farm(&farm);
     return (0);
 }
