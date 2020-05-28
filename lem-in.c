@@ -46,6 +46,8 @@ static void initialize_map(t_farm *farm)
     ret = 0;
     while ((ret = get_next_line(0, &farm->line)) > 0)
     {
+        if (ft_strchr(farm->line, '-') == NULL)
+            error_msg("Error: No links/path found", farm);
         if (ft_strisdigit(farm->line))
             count_ants(farm);
         else if (ft_strequ(farm->line, "##start"))

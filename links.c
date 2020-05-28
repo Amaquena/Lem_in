@@ -55,7 +55,7 @@ static int validate_links(t_farm *farm)
 }
 
 /*
-    Verify funtions takes the farm->line and splits it into farm->link
+    Verify functions takes the farm->line and splits it into farm->link
     farm->link is the check if it is a valid link that joins each room
     together before storing it.
     If all tests passes create_links() is then called.
@@ -81,11 +81,4 @@ void verify_links(t_farm *farm)
     }
     create_link(farm);
     free_link(farm->link);
-
-    /*
-    Used instead of the create_links funtion, but cant free without segfault.
-  
-    add_links(farm, farm->link[0], farm->link[1]);
-    add_links(farm, farm->link[1], farm->link[0]);
-*/
 }
