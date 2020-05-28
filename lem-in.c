@@ -46,8 +46,6 @@ static void initialize_map(t_farm *farm)
     ret = 0;
     while ((ret = get_next_line(0, &farm->line)) > 0)
     {
-        if (ft_strchr(farm->line, '-') == NULL)
-            error_msg("Error: No links/path found", farm);
         if (ft_strisdigit(farm->line))
             count_ants(farm);
         else if (ft_strequ(farm->line, "##start"))
@@ -67,10 +65,10 @@ static void initialize_map(t_farm *farm)
         ft_strdel(&farm->line);
     }
     if (ret < 0)
-        error_msg("Error: Failed to read file.", farm);
+        error_msg("Error: Failed to read file because file is empty.", farm);
     if (!verify_start_end(farm))
         error_msg("Error: No start or end declared.", farm);
-    if (farm->ants < 1)
+    if (farm->ants < 0)
         error_msg("Error: No ants on map.", farm);
 }
 
