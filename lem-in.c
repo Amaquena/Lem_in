@@ -59,6 +59,8 @@ static void initialize_map(t_farm *farm)
         }
         else if (ft_strchr(farm->line, '-') && farm->line[0] != '#')
             verify_links(farm);
+        // else if (ft_strchr(farm->line, '-') == NULL)
+        //     error_msg("Error: No links found.", farm);
         else if (farm->line[0] != '#')
             error_msg("Error: Input not recognized.", farm);
         ft_putendl(farm->line);
