@@ -92,8 +92,6 @@ static void initialize_map(t_farm *farm)
             verify_room(farm, type);
             type = REG;
         }
-        else if (ft_strchr(farm->line, '-') == NULL)
-            error_msg("Error: No links found.", farm);
         else if (ft_strchr(farm->line, '-') && farm->line[0] != '#')
             verify_links(farm);
         else if (farm->line[0] != '#')
@@ -119,7 +117,7 @@ int main(void)
     if (verify_paths(&farm))
         output_farm(&farm);
     else
-        error_msg("Error: Start room doesn't link to End.", &farm);
+        error_msg("Error: No links or valid paths.", &farm);
     free_farm(&farm);
     return (0);
 }
