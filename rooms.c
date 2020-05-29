@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rooms.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/05/29 10:00:50 by kris              #+#    #+#             */
+/*   Updated: 2020/05/29 10:00:53 by kris             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem-in.h"
 
 /*
@@ -10,10 +22,10 @@
     farm->rooms holds a list of all the rooms that are on the map.
 */
 
-static void create_room(t_farm *farm, int type)
+static void     create_room(t_farm *farm, int type)
 {
-    t_room *new_room;
-    t_room *head;
+    t_room  *new_room;
+    t_room  *head;
 
     if (!(new_room = (t_room *)malloc(sizeof(t_room))))
         error_msg("Error: Failed malloc when creating room.", farm);
@@ -46,10 +58,10 @@ static void create_room(t_farm *farm, int type)
     and a valid end in the map;
 */
 
-int verify_start_end(t_farm *farm)
+int             verify_start_end(t_farm *farm)
 {
-    t_room *head;
-    int flag;
+    t_room  *head;
+    int     flag;
 
     head = farm->rooms;
     flag = 0;
@@ -71,9 +83,9 @@ int verify_start_end(t_farm *farm)
     not deined as a start room and an end room.
 */
 
-static int verify_start_not_end(t_farm *farm)
+static int      verify_start_not_end(t_farm *farm)
 {
-    t_room *head;
+    t_room  *head;
 
     head = farm->rooms;
     while (head)
@@ -96,9 +108,9 @@ static int verify_start_not_end(t_farm *farm)
     If all tests passes the create_room() is called.
 */
 
-void verify_room(t_farm *farm, int type)
+void            verify_room(t_farm *farm, int type)
 {
-    int count;
+    int     count;
 
     count = 0;
     farm->room = ft_strsplit(farm->line, ' ');

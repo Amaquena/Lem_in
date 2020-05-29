@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   solve.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/05/29 10:01:37 by kris              #+#    #+#             */
+/*   Updated: 2020/05/29 10:01:39 by kris             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem-in.h"
 
-static void find_linking_room2(char *name, t_farm *farm, int depth, t_queue **path, t_queue *closed)
+static void     find_linking_room2(char *name, t_farm *farm, int depth, t_queue **path, t_queue *closed)
 {
-    t_room *tmp_room;
-    t_link *links;
+    t_room  *tmp_room;
+    t_link  *links;
 
     links = farm->links;
     while (links)
@@ -30,10 +42,10 @@ static void find_linking_room2(char *name, t_farm *farm, int depth, t_queue **pa
     }
 }
 
-static void find_path(t_farm *farm, t_queue **path, t_queue *closed)
+static void     find_path(t_farm *farm, t_queue **path, t_queue *closed)
 {
-    t_queue *tmp_closed;
-    t_room *tmp_room;
+    t_queue     *tmp_closed;
+    t_room      *tmp_room;
 
     tmp_closed = closed;
     while (tmp_closed->next)
@@ -49,7 +61,7 @@ static void find_path(t_farm *farm, t_queue **path, t_queue *closed)
     }
 }
 
-static void reset_rooms(t_farm *farm, t_queue **open, t_queue **closed)
+static void     reset_rooms(t_farm *farm, t_queue **open, t_queue **closed)
 {
     t_room *rooms;
     t_queue *tmp;
@@ -91,7 +103,7 @@ static void reset_rooms(t_farm *farm, t_queue **open, t_queue **closed)
     (*closed) = NULL;
 }
 
-static int count_paths(t_link *links, char *start)
+static int      count_paths(t_link *links, char *start)
 {
     int count;
 
@@ -107,12 +119,12 @@ static int count_paths(t_link *links, char *start)
     return (count);
 }
 
-void solve(t_farm *farm)
+void            solve(t_farm *farm)
 {
     t_queue *open;
     t_queue *closed;
     t_queue **path;
-    t_room *tmp_room;
+    t_room  *tmp_room;
 
     open = NULL;
     closed = NULL;

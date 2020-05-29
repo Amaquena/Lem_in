@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/27 20:14:35 by krissyleemc       #+#    #+#             */
-/*   Updated: 2020/05/27 20:15:10 by krissyleemc      ###   ########.fr       */
+/*   Updated: 2020/05/29 09:52:49 by kris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 
-void free_farm(t_farm *farm)
+void    free_farm(t_farm *farm)
 {
 
-    t_room *rooms;
-    t_room *nextroom;
-    t_link *links;
-    t_link *nextlink;
-    t_queue **paths;
-    t_queue *nextpath;
+    t_room      *rooms;
+    t_room      *nextroom;
+    t_link      *links;
+    t_link      *nextlink;
+    t_queue     **paths;
+    t_queue     *nextpath;
     size_t i;
 
     rooms = farm->rooms;
@@ -69,7 +69,7 @@ void free_farm(t_farm *farm)
         ft_strdel(&farm->line);
 }
 
-void free_room(char **room)
+void    free_room(char **room)
 {
     if (room[0])
     {
@@ -93,7 +93,7 @@ void free_room(char **room)
     }
 }
 
-void free_link(char **link)
+void    free_link(char **link)
 {
     if (link[0])
     {

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   solve_assist2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/27 20:39:10 by krissyleemc       #+#    #+#             */
-/*   Updated: 2020/05/27 20:40:42 by krissyleemc      ###   ########.fr       */
+/*   Updated: 2020/05/29 09:59:50 by kris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 
-t_room *find_room(char *name, t_room *room)
+t_room      *find_room(char *name, t_room *room)
 {
-    t_room *tmp;
+    t_room  *tmp;
 
     tmp = room;
     while (tmp)
@@ -26,11 +26,11 @@ t_room *find_room(char *name, t_room *room)
     return (NULL);
 }
 
-void add_to_open_queue(char *room, t_queue **open, t_room *rooms)
+void        add_to_open_queue(char *room, t_queue **open, t_room *rooms)
 {
     t_queue *new_open;
     t_queue *last;
-    t_room *tmp_room;
+    t_room  *tmp_room;
 
     tmp_room = find_room(room, rooms);
     if (tmp_room->visited == 0 && tmp_room->lock == 0)
@@ -54,7 +54,7 @@ void add_to_open_queue(char *room, t_queue **open, t_room *rooms)
     }
 }
 
-void find_linking_room(t_link *links, t_queue *open, t_farm *farm)
+void        find_linking_room(t_link *links, t_queue *open, t_farm *farm)
 {
     t_queue *tmp_open;
     int flag = 0;
@@ -79,7 +79,7 @@ void find_linking_room(t_link *links, t_queue *open, t_farm *farm)
         error_msg("Error: Start or end Dont link to any rooms", farm);
 }
 
-void set_depth(t_queue *open, t_room *rooms, int depth)
+void        set_depth(t_queue *open, t_room *rooms, int depth)
 {
     t_room *tmp_room;
 

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   util.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/05/29 10:01:43 by kris              #+#    #+#             */
+/*   Updated: 2020/05/29 10:02:48 by kris             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem-in.h"
 
-void error_msg(char *str, t_farm *farm)
+void        error_msg(char *str, t_farm *farm)
 {
     ft_putstr(RED);
     ft_putstr(str);
@@ -9,7 +21,7 @@ void error_msg(char *str, t_farm *farm)
     exit(EXIT_FAILURE);
 }
 
-void print_a_line(int ant, char *room)
+void        print_a_line(int ant, char *room)
 {
     ft_putchar('L');
     ft_putnbr(ant);
@@ -17,14 +29,14 @@ void print_a_line(int ant, char *room)
     ft_putstr(room);
 }
 
-t_ants *convert_path(t_farm *farm)
+t_ants      *convert_path(t_farm *farm)
 {
     t_queue *path;
-    t_ants *ants;
-    int i;
-    int count;
-    int path_count;
-    int current_path;
+    t_ants  *ants;
+    int     i;
+    int     count;
+    int     path_count;
+    int     current_path;
 
     path_count = 0;
     while (farm->paths[path_count])
@@ -58,7 +70,7 @@ t_ants *convert_path(t_farm *farm)
     return (ants);
 }
 
-int print_cycle(int cycle, int ants, int paths_count, t_ants *paths)
+int         print_cycle(int cycle, int ants, int paths_count, t_ants *paths)
 {
     int keep;
     int space;
@@ -87,7 +99,7 @@ int print_cycle(int cycle, int ants, int paths_count, t_ants *paths)
     return (keep);
 }
 
-void output_farm(t_farm *farm)
+void        output_farm(t_farm *farm)
 {
     int path_count;
     int keep;

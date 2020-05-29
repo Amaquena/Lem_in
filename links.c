@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   links.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/05/29 10:00:59 by kris              #+#    #+#             */
+/*   Updated: 2020/05/29 10:01:01 by kris             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem-in.h"
 
 /*
@@ -9,10 +21,10 @@
     rooms together.
 */
 
-static void create_link(t_farm *farm)
+static void     create_link(t_farm *farm)
 {
-    t_link *head;
-    t_link *new_link;
+    t_link  *head;
+    t_link  *new_link;
 
     head = farm->links;
     if (!(new_link = (t_link *)malloc(sizeof(t_link))))
@@ -36,9 +48,9 @@ static void create_link(t_farm *farm)
     names on the map.
 */
 
-static int validate_links(t_farm *farm)
+static int      validate_links(t_farm *farm)
 {
-    t_room *head;
+    t_room      *head;
 
     head = farm->rooms;
     while (head && !ft_strequ(head->name, farm->link[0]))
@@ -61,9 +73,9 @@ static int validate_links(t_farm *farm)
     If all tests passes create_links() is then called.
 */
 
-void verify_links(t_farm *farm)
+void            verify_links(t_farm *farm)
 {
-    int counter;
+    int     counter;
 
     counter = 0;
     farm->link = ft_strsplit(farm->line, '-');
