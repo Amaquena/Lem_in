@@ -12,7 +12,7 @@
 
 #include "lem-in.h"
 
-void        error_msg(char *str, t_farm *farm)
+void error_msg(char *str, t_farm *farm)
 {
     ft_putstr(RED);
     ft_putstr(str);
@@ -21,7 +21,7 @@ void        error_msg(char *str, t_farm *farm)
     exit(EXIT_FAILURE);
 }
 
-void        print_a_line(int ant, char *room)
+void print_a_line(int ant, char *room)
 {
     ft_putchar('L');
     ft_putnbr(ant);
@@ -29,19 +29,20 @@ void        print_a_line(int ant, char *room)
     ft_putstr(room);
 }
 
-t_ants      *convert_path(t_farm *farm)
+t_ants *convert_path(t_farm *farm)
 {
     t_queue *path;
-    t_ants  *ants;
-    int     i;
-    int     count;
-    int     path_count;
-    int     current_path;
+    t_ants *ants;
+    int i;
+    int count;
+    int path_count;
+    int current_path;
 
     path_count = 0;
     while (farm->paths[path_count])
         path_count++;
 
+    farm->path_count = path_count;
     ants = (t_ants *)ft_memalloc(sizeof(t_ants) * (path_count));
     current_path = 0;
     while (current_path < path_count)
@@ -67,10 +68,11 @@ t_ants      *convert_path(t_farm *farm)
         ants[current_path].rooms[i] = NULL;
         current_path++;
     }
+    // ants[current_path] = NULL;
     return (ants);
 }
 
-int         print_cycle(int cycle, int ants, int paths_count, t_ants *paths)
+int print_cycle(int cycle, int ants, int paths_count, t_ants *paths)
 {
     int keep;
     int space;
@@ -99,7 +101,32 @@ int         print_cycle(int cycle, int ants, int paths_count, t_ants *paths)
     return (keep);
 }
 
-void        output_farm(t_farm *farm)
+void free_ants(t_ants **ants, int path_count)
+{
+    int i;
+    int j;
+    t_ants *a;
+    t_ants *head;
+
+    a = *ants;
+    head = *ants;
+    i = 0;
+    while (i < (path_count))
+    {
+        j = 0;
+        while (a->rooms[j])
+        {
+            ft_strdel(&a->rooms[j]);
+            j++;
+        }
+        ft_memdel((void **)&a->rooms);
+        a = ++(*ants);
+        i++;
+    }
+    free(head);
+}
+
+void output_farm(t_farm *farm)
 {
     int path_count;
     int keep;
@@ -119,4 +146,5 @@ void        output_farm(t_farm *farm)
         keep = print_cycle(cycles, farm->ants, path_count, path);
         cycles++;
     }
+    free_ants(&path, farm->path_count);
 }

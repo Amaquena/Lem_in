@@ -28,7 +28,7 @@ void    free_farm(t_farm *farm)
     paths = farm->paths;
     i = 0;
 
-    if (paths && paths[i])
+    while (paths && paths[i])
     {
         while (paths && paths[i])
         {
@@ -36,8 +36,8 @@ void    free_farm(t_farm *farm)
             ft_strdel(&paths[i]->name);
             ft_memdel((void **)&paths[i]);
             paths[i] = nextpath;
-            // i++;
         }
+        i++;
     }
 
     if (rooms)
