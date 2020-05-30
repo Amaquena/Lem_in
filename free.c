@@ -6,7 +6,7 @@
 /*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/27 20:14:35 by krissyleemc       #+#    #+#             */
-/*   Updated: 2020/05/29 09:52:49 by kris             ###   ########.fr       */
+/*   Updated: 2020/05/29 16:09:29 by kris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void    free_farm(t_farm *farm)
     t_link      *nextlink;
     t_queue     **paths;
     t_queue     *nextpath;
-    size_t i;
+    size_t      i;
 
     rooms = farm->rooms;
     links = farm->links;

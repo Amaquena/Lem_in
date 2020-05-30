@@ -6,7 +6,7 @@
 /*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/29 10:00:50 by kris              #+#    #+#             */
-/*   Updated: 2020/05/29 10:00:53 by kris             ###   ########.fr       */
+/*   Updated: 2020/05/30 10:38:26 by kris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static void     create_room(t_farm *farm, int type)
     new_room->type = type;
     new_room->next = NULL;
     if (type == START)
-        farm->start = ft_strdup(farm->room[0]);
+        farm->start = new_room->name;
     if (type == END)
-        farm->end = ft_strdup(farm->room[0]);
+        farm->end = new_room->name;
 
     head = farm->rooms;
     if (head)
@@ -103,7 +103,7 @@ static int      verify_start_not_end(t_farm *farm)
 }
 
 /*
-    Verify funtions takes the farm->line and splits it into farm->room
+    Verify functions takes the farm->line and splits it into farm->room
     farm->room is the check if it is a valid room before storing it.
     If all tests passes the create_room() is called.
 */

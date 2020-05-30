@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaquena <amaquena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 14:00:44 by amaquena          #+#    #+#             */
-/*   Updated: 2019/08/16 17:10:04 by amaquena         ###   ########.fr       */
+/*   Updated: 2020/05/30 11:50:42 by kris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-** Finds the position of the newline char in the string that is passed to it
-*/
+// /*
+// ** Finds the position of the newline char in the string that is passed to it
+// */
 
 
 static size_t	find_n(char **str, const int fd)

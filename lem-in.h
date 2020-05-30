@@ -6,7 +6,7 @@
 /*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/29 10:01:06 by kris              #+#    #+#             */
-/*   Updated: 2020/05/29 10:01:08 by kris             ###   ########.fr       */
+/*   Updated: 2020/05/30 10:20:11 by kris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define LEM_IN_H
 
 #include "libft/libft.h"
-#include "stdio.h"
+#include <stdio.h>
 
 /*
 ** DEFINE COLOR

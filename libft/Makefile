@@ -9,7 +9,7 @@ OFILES = ft_strlen.o ft_strdup.o ft_strcpy.o ft_strncpy.o ft_strcat.o ft_strncat
 		 ft_isspace.o ft_numlen.o get_next_line.o ft_swapany.o ft_atol.o ft_strisdigit.o
 
 $(NAME):
-	@gcc -c -Wall -Wextra -Werror $(CFILES)
+	@gcc -c -Wall -Wextra -Werror -ggdb3 $(CFILES)
 	@ar rcs $(NAME) $(OFILES)
 	@ranlib $(NAME)
 
