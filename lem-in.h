@@ -99,6 +99,7 @@ void        error_msg(char *str, t_farm *farm);
 void        free_farm(t_farm *farm);
 void        free_room(char **room);
 void        free_link(char **link);
+void        free_ants(t_ants **ants, int path_count);
 void        output_farm(t_farm *farm);
 t_room      *find_room(char *name, t_room *room);
 
