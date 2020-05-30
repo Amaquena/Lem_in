@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem-in.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/29 10:01:13 by kris              #+#    #+#             */
-/*   Updated: 2020/05/29 10:01:15 by kris             ###   ########.fr       */
+/*   Updated: 2020/05/30 20:17:57 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
     All the values of the struct of the main farm struct are initialized
     to zero or NUNLL.
 */
-static void     intitailze_values(t_farm *farm)
+static void intitailze_values(t_farm *farm)
 {
     farm->rooms = NULL;
     farm->paths = NULL;
@@ -35,7 +35,7 @@ static void     intitailze_values(t_farm *farm)
     an integer in the struct farm.
 */
 
-static void     count_ants(t_farm *farm)
+static void count_ants(t_farm *farm)
 {
     if (ft_atoi(farm->line) < 1)
         error_msg("Error: No ants on map.", farm);
@@ -49,13 +49,13 @@ static void     count_ants(t_farm *farm)
     and links in the farm struct.
 */
 
-int             verify_paths(t_farm *farm)
+int verify_paths(t_farm *farm)
 {
-    t_queue     *path;
-    t_room      *room;
-    int         current_path;
-    int         path_count;
-    int         flag;
+    t_queue *path;
+    t_room *room;
+    int current_path;
+    int path_count;
+    int flag;
 
     path_count = 0;
     while (farm->paths[path_count])
@@ -86,8 +86,8 @@ int             verify_paths(t_farm *farm)
 
 static void initialize_map(t_farm *farm)
 {
-    int     type;
-    int     ret;
+    int type;
+    int ret;
 
     type = REG;
     ret = 0;
@@ -121,7 +121,7 @@ static void initialize_map(t_farm *farm)
 
 int main(void)
 {
-    t_farm      farm;
+    t_farm farm;
 
     intitailze_values(&farm);
     initialize_map(&farm);
