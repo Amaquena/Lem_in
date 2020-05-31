@@ -6,7 +6,7 @@
 /*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/29 10:01:13 by kris              #+#    #+#             */
-/*   Updated: 2020/05/31 10:47:24 by krissyleemc      ###   ########.fr       */
+/*   Updated: 2020/05/31 16:45:48 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ void lem_in(t_bool verbose)
         ft_putendl(NULL);
     }
     free_farm(&farm);
-    return (0);
 }
 
 int main(int argc, char **argv)
@@ -153,6 +152,8 @@ int main(int argc, char **argv)
     }
     if (argc == 1)
         lem_in(verbose);
+    else
+        ft_putendl("Use ./lem-in < mapfile");
     return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/29 10:01:43 by kris              #+#    #+#             */
-/*   Updated: 2020/05/31 10:52:56 by krissyleemc      ###   ########.fr       */
+/*   Updated: 2020/05/31 17:03:21 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,12 +149,12 @@ void output_farm(t_farm *farm)
     free_ants(&path, farm->path_count);
 }
 
-void print_paths(t_farm *lem_in)
+void print_paths(t_farm *farm)
 {
-    t_path *current_path;
+    t_ants *current_path;
     t_link *current_link;
 
-    current_path = lem_in->paths;
+    current_path = farm->paths;
     while (current_path)
     {
         current_link = current_path->head;

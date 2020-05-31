@@ -6,7 +6,7 @@
 /*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/29 10:01:06 by kris              #+#    #+#             */
-/*   Updated: 2020/05/31 10:53:15 by krissyleemc      ###   ########.fr       */
+/*   Updated: 2020/05/31 16:54:16 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,6 @@ typedef struct s_link t_link;
 typedef struct s_queue t_queue;
 typedef struct s_ants t_ants;
 
-struct s_queue
-{
-    char *name;
-    t_queue *next;
-    t_queue *prev;
-};
-
 struct s_link
 {
     t_room *start;
@@ -56,6 +49,14 @@ struct s_link
     char *room1;
     char *room2;
     t_link *next;
+};
+
+struct s_queue
+{
+    char *name;
+    t_queue *next;
+    t_queue *prev;
+    t_link *head;
 };
 
 struct s_room
@@ -70,12 +71,12 @@ struct s_room
     t_room *next;
 };
 
-typedef struct s_path
-{
-    t_link *head;
-    int length;
-    struct s_path *next;
-} t_path;
+// typedef struct s_path
+// {
+//     t_link *head;
+//     int length;
+//     struct s_path *next;
+// } t_path;
 
 struct s_farm
 {
@@ -129,6 +130,7 @@ int adjust_depth(t_room *rooms);
 void find_linking_room(t_link *links, t_queue *open, t_farm *farm);
 int find_on_closed(t_queue *closed, char *name);
 int check_if_end_found(t_queue *closed, t_room *rooms);
+void print_paths(t_farm *lem_in);
 
 /*
 ** initialize funtions
