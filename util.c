@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/29 10:01:43 by kris              #+#    #+#             */
-/*   Updated: 2020/05/29 10:02:48 by kris             ###   ########.fr       */
+/*   Updated: 2020/05/31 10:52:56 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,4 +147,29 @@ void output_farm(t_farm *farm)
         cycles++;
     }
     free_ants(&path, farm->path_count);
+}
+
+void print_paths(t_farm *lem_in)
+{
+    t_path *current_path;
+    t_link *current_link;
+
+    current_path = lem_in->paths;
+    while (current_path)
+    {
+        current_link = current_path->head;
+        ft_putchar('[');
+        ft_putstr(current_link->start->name);
+        ft_putchar(']');
+        while (current_link)
+        {
+            ft_putstr(" -> ");
+            ft_putchar('[');
+            ft_putstr(current_link->end->name);
+            ft_putchar(']');
+            current_link = current_link->next;
+        }
+        ft_putendl(NULL);
+        current_path = current_path->next;
+    }
 }

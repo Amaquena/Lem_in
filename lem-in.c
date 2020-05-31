@@ -6,7 +6,7 @@
 /*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/29 10:01:13 by kris              #+#    #+#             */
-/*   Updated: 2020/05/30 20:17:57 by krissyleemc      ###   ########.fr       */
+/*   Updated: 2020/05/31 10:47:24 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static void initialize_map(t_farm *farm)
         error_msg("Error: No ants on map.", farm);
 }
 
-int main(void)
+void lem_in(t_bool verbose)
 {
     t_farm farm;
 
@@ -130,6 +130,43 @@ int main(void)
         output_farm(&farm);
     else
         error_msg("Error: No links or valid paths.", &farm);
+    if (verbose)
+    {
+        print_paths(&farm);
+        ft_putendl(NULL);
+    }
     free_farm(&farm);
     return (0);
 }
+
+int main(int argc, char **argv)
+{
+    t_bool verbose;
+
+    verbose = false;
+    while (argc >= 2 && !ft_strcmp(argv[1], "-v"))
+    {
+        if (!ft_strcmp(argv[1], "-v"))
+            verbose = true;
+        argv++;
+        argc--;
+    }
+    if (argc == 1)
+        lem_in(verbose);
+    return (0);
+}
+
+// int main(void)
+// {
+//     t_farm farm;
+
+//     intitailze_values(&farm);
+//     initialize_map(&farm);
+//     solve(&farm);
+//     if (verify_paths(&farm))
+//         output_farm(&farm);
+//     else
+//         error_msg("Error: No links or valid paths.", &farm);
+//     free_farm(&farm);
+//     return (0);
+// }
