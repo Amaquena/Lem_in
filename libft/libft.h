@@ -6,7 +6,7 @@
 /*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 12:24:43 by amaquena          #+#    #+#             */
-/*   Updated: 2020/05/30 21:32:53 by krissyleemc      ###   ########.fr       */
+/*   Updated: 2020/06/01 16:38:48 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <fcntl.h>
 #define INT_MIN -2147483648
 #define INT_MAX 2147483647
-#define BUFF_SIZE 36
+#define BUFF_SIZE 1
 
 typedef struct s_list
 {

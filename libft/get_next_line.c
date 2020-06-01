@@ -6,104 +6,92 @@
 /*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 14:00:44 by amaquena          #+#    #+#             */
-/*   Updated: 2020/05/30 21:34:25 by krissyleemc      ###   ########.fr       */
+/*   Updated: 2020/06/01 16:38:44 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void ft_substr(char buffer[])
+static char *ft_strsubchr(char **line, char *temp, char c)
 {
-	long i;
-	long j;
-	char cpy[BUFF_SIZE + 1];
+	size_t count;
+	char *str;
 
-	i = 0;
-	while (i < BUFF_SIZE + 1)
-		cpy[i++] = '\0';
-	i = 0;
-	while (buffer[i] != '\n' && i < BUFF_SIZE && buffer[i] != '\0')
-		i++;
-	if (buffer[i] == '\n')
-		i++;
-	j = 0;
-	while (i < BUFF_SIZE)
-		cpy[j++] = buffer[i++];
-	i = -1;
-	while (++i < BUFF_SIZE)
-		buffer[i] = cpy[i];
-	buffer[i] = '\0';
-}
-
-int check_file(int fd, char files[][BUFF_SIZE + 1])
-{
-	long len;
-	long nb_read;
-
-	if (fd < 0 || fd > 10240)
-		return (-1);
-	len = 0;
-	while (files[fd][len] && files[fd][len] != '\n' && len < BUFF_SIZE)
-		len++;
-	if (len > 0 || files[fd][len] == '\n')
-		return (len);
-	if ((nb_read = read(fd, files[fd], BUFF_SIZE)) < 0)
-		return (nb_read);
-	len = 0;
-	while (files[fd][len] != '\n' && len < nb_read)
-		len++;
-	return (len);
-}
-
-int copy_and_cut_buffer(int size, int length, char **line, char buffer[])
-{
-	long i;
-	char cpy[size];
-
-	i = -1;
-	while (++i < size - length)
-		cpy[i] = (*line)[i];
-	i = -1;
-	while (++i + (size - length) < size)
-		cpy[i + (size - length)] = buffer[i];
-	free((*line));
-	if (!((*line) = malloc(sizeof(char) *
-						   (size + ((buffer[length] == '\n' || !length) ? 1 : 0)))))
-		return (-1);
-	i = -1;
-	while (++i < size)
-		(*line)[i] = cpy[i];
-	if (!(i *= 0) && (buffer[length] == '\n' || !length))
+	count = 0;
+	while (temp[count] != '\0')
 	{
-		(*line)[size] = '\0';
-		ft_substr(buffer);
-		return (1);
+		if (temp[count] == c)
+			break;
+		count++;
 	}
-	while ((buffer[length] != '\n' || length) && i < BUFF_SIZE)
-		buffer[i++] = '\0';
-	return (0);
+	if (temp[count] == '\n')
+	{
+		*line = ft_strsub(temp, 0, count);
+		str = ft_strdup(&temp[count + 1]);
+	}
+	if (temp[count] == '\0')
+	{
+		*line = ft_strsub(temp, 0, count);
+		str = ft_strnew(0);
+	}
+	return (str);
 }
 
-int get_next_line(int fd, char **line)
+static int readfile(int fd, t_list **curr_list)
 {
-	int length;
-	int size;
-	static char files[10242][BUFF_SIZE + 1];
+	int ret;
+	char *temp;
+	char buff[BUFF_SIZE + 1];
 
-	if (!line || BUFF_SIZE <= 0 || !((*line) = malloc(sizeof(char))) || (length = check_file(fd, files)) < 0)
-		return (-1);
-	if (!length && files[fd][length] != '\n')
-		(*line)[0] = '\0';
-	size = 0;
-	while ((size += length) > -1 && (length || files[fd][length] == '\n'))
+	while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		if ((length = copy_and_cut_buffer(size, length, line, files[fd])) != 0)
-			return (length);
-		if ((length = check_file(fd, files)) < 0)
-			return (length);
+		buff[ret] = '\0';
+		temp = ft_strjoin((*curr_list)->content, buff);
+		free((*curr_list)->content);
+		(*curr_list)->content = temp;
+		if (ft_strchr(buff, '\n'))
+			break;
 	}
-	if (size > 0)
-		if (copy_and_cut_buffer(size, length, line, files[fd]) < 0)
-			return (-1);
-	return (0);
+	return (ret);
+}
+
+static t_list *ft_getfile(t_list **file, int fd)
+{
+	t_list *temp;
+
+	temp = *file;
+	while (temp)
+	{
+		if ((int)temp->content_size == fd)
+			return (temp);
+		temp = temp->next;
+	}
+	temp = ft_lstnew("\0", fd);
+	ft_lstadd(file, temp);
+	temp = NULL;
+	return (*file);
+}
+
+int get_next_line(const int fd, char **line)
+{
+	int ret;
+	char *temp;
+	char buff[BUFF_SIZE + 1];
+	static t_list *fd_list;
+	t_list *curr_file;
+
+	if (read(fd, buff, 0) < 0 || fd < 0 || fd <= -2147483648 ||
+		fd >= 2147483647 || !line || BUFF_SIZE <= 0)
+		return (-1);
+	curr_file = ft_getfile(&fd_list, fd);
+	if ((ret = readfile(fd, &curr_file)) < 0)
+		return (-1);
+	if (!ret && !(ft_strlen(curr_file->content)))
+	{
+		return (0);
+	}
+	temp = ft_strsubchr(line, (char *)curr_file->content, '\n');
+	free(curr_file->content);
+	curr_file->content = temp;
+	return (1);
 }
