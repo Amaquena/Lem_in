@@ -101,31 +101,6 @@ int print_cycle(int cycle, int ants, int paths_count, t_ants *paths)
     return (keep);
 }
 
-void free_ants(t_ants **ants, int path_count)
-{
-    int i;
-    int j;
-    t_ants *a;
-    t_ants *head;
-
-    a = *ants;
-    head = *ants;
-    i = 0;
-    while (i < (path_count))
-    {
-        j = 0;
-        while (a->rooms[j])
-        {
-            ft_strdel(&a->rooms[j]);
-            j++;
-        }
-        ft_memdel((void **)&a->rooms);
-        a = ++(*ants);
-        i++;
-    }
-    free(head);
-}
-
 static t_content *create_node(char *line)
 {
     t_content *node;
