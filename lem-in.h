@@ -68,6 +68,13 @@ struct s_room
     t_room *next;
 };
 
+typedef struct s_content
+{
+    char *content;
+    struct s_content *next;
+} t_content;
+
+
 struct s_farm
 {
     int ants;
@@ -82,17 +89,11 @@ struct s_farm
     char *end;
     char *content;
     struct s_farm *next;
-    // char *file;
     t_room *rooms;
     t_link *links;
     t_queue **paths;
+    t_content *file;
 };
-
-typedef struct s_content
-{
-    char *content;
-    struct s_content *next;
-} t_content;
 
 struct s_ants
 {
@@ -117,6 +118,7 @@ void        free_farm(t_farm *farm);
 void        free_room(char **room);
 void        free_link(char **link);
 void        free_ants(t_ants **ants, int path_count);
+void free_file(t_farm *farm);
 
 /*
 ** assist funtions

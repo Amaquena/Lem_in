@@ -12,6 +12,25 @@
 
 #include "lem-in.h"
 
+void free_file(t_farm *farm)
+{
+    t_content   *node;
+    t_content   *nextnode;
+
+    node = farm->file;
+    if (node)
+    {
+        while (node)
+        {
+            nextnode = node;
+            node = node->next;
+            ft_strdel(&nextnode->content);
+            ft_memdel((void **)&nextnode);
+        }
+        ft_memdel((void ** )&node);
+    }
+}
+
 void    free_farm(t_farm *farm)
 {
 
@@ -62,6 +81,7 @@ void    free_farm(t_farm *farm)
             links = nextlink;
         }
     }
+    free_file(farm);
     ft_memdel((void ** )&rooms);
     ft_memdel((void ** )&links);
     ft_memdel((void ** )&paths);
