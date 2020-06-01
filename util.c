@@ -173,6 +173,7 @@ t_content *init_content(t_content **file, char *line)
 void print_file(t_content **head)
 {
     t_content *node;
+    t_content *tmp;
 
     node = *head;
     if (node)
@@ -180,7 +181,10 @@ void print_file(t_content **head)
         while (node)
         {
             ft_putendl(node->content);
+            tmp = node;
             node = node->next;
+            ft_strdel(&tmp->content);
+            ft_memdel((void **)&tmp);
         }
     }
 }
