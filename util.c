@@ -194,11 +194,11 @@ void output_farm(t_farm *farm, t_content *file)
 
     path = convert_path(farm);
     path_count = 0;
-    print_file(&file);
     while (farm->paths[path_count])
         path_count++;
     keep = 1;
     cycles = 1;
+    print_file(&file);
     while (keep)
     {
         keep = 0;

@@ -119,19 +119,19 @@ static t_content *initialize_map(t_farm *farm)
         error_msg("Error.", farm);
     if (farm->ants < 0)
         error_msg("Error.", farm);
-    // print_file(&file);
     return (file);
 }
 
 int main(void)
 {
     t_farm farm;
+    t_content *file;
 
     intitailze_values(&farm);
-    initialize_map(&farm);
+    file = initialize_map(&farm);
     solve(&farm);
     if (verify_paths(&farm))
-        output_farm(&farm, initialize_map(&farm));
+        output_farm(&farm, file);
     else
         error_msg("Error.", &farm);
     free_farm(&farm);
