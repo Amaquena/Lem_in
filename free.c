@@ -46,7 +46,7 @@ void    free_farm(t_farm *farm)
         {
             ft_strdel(&rooms->name);
             nextroom = rooms->next;
-            free(rooms);
+            ft_memdel((void **)&rooms);
             rooms = nextroom;
         }
     }
@@ -58,17 +58,13 @@ void    free_farm(t_farm *farm)
             ft_strdel(&links->room1);
             ft_strdel(&links->room2);
             nextlink = links->next;
-            free(links);
+            ft_memdel((void **)&links);
             links = nextlink;
         }
     }
-    free(rooms);
-    free(links);
-    free(paths);
-    if (farm->start)
-        ft_strdel(&farm->start);
-    if (farm->end)
-        ft_strdel(&farm->end);
+    ft_memdel((void ** )&rooms);
+    ft_memdel((void ** )&links);
+    ft_memdel((void ** )&paths);
     if (farm->line)
         ft_strdel(&farm->line);
 }
