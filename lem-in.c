@@ -6,7 +6,7 @@
 /*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/29 10:01:13 by kris              #+#    #+#             */
-/*   Updated: 2020/05/30 20:17:57 by krissyleemc      ###   ########.fr       */
+/*   Updated: 2020/06/01 20:18:40 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,18 @@ int verify_paths(t_farm *farm)
     return (1);
 }
 
-static void initialize_map(t_farm *farm)
+static t_content *initialize_map(t_farm *farm)
 {
     int type;
     int ret;
+    t_content *file;
 
     type = REG;
     ret = 0;
+    file = NULL;
     while ((ret = get_next_line(0, &farm->line)) > 0)
     {
+        file = init_content(&file, farm->line);
         if (ft_strisdigit(farm->line))
             count_ants(farm);
         else if (ft_strequ(farm->line, "##start"))
@@ -119,17 +122,19 @@ static void initialize_map(t_farm *farm)
         error_msg("Error.", farm);
     if (farm->ants < 0)
         error_msg("Error.", farm);
+    return (file);
 }
 
 int main(void)
 {
     t_farm farm;
+    t_content *file;
 
     intitailze_values(&farm);
-    initialize_map(&farm);
+    file = initialize_map(&farm);
     solve(&farm);
     if (verify_paths(&farm))
-        output_farm(&farm);
+        output_farm(&farm, file);
     else
         error_msg("Error.", &farm);
     free_farm(&farm);
