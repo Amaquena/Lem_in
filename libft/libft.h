@@ -20,7 +20,7 @@
 # include <fcntl.h>
 # define INT_MIN -2147483648
 # define INT_MAX 2147483647
-# define BUFF_SIZE 36
+# define BUFF_SIZE 1
 
 typedef struct		s_list
 {

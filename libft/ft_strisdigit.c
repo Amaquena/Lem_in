@@ -5,6 +5,8 @@ int	ft_strisdigit(char *str)
 	int i;
 
 	i = 0;
+	if (str[0] == '-' || str[0] == '+')
+		i++;
 	while (str[i])
 	{
 		if (str[i] < 48 || str[i] > 57)

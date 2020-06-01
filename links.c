@@ -16,7 +16,7 @@ static void create_link(t_farm *farm)
 
     head = farm->links;
     if (!(new_link = (t_link *)malloc(sizeof(t_link))))
-        error_msg("Error: Failed malloc when creating link.", farm);
+        error_msg("Error.", farm);
     new_link->room1 = ft_strdup(farm->link[0]);
     new_link->room2 = ft_strdup(farm->link[1]);
     new_link->next = NULL;
@@ -72,12 +72,12 @@ void verify_links(t_farm *farm)
     if (counter != 2)
     {
         free_link(farm->link);
-        error_msg("Error: Incorrect format for declaring link.", farm);
+        error_msg("Error.", farm);
     }
     if (!validate_links(farm))
     {
         free_link(farm->link);
-        error_msg("Error: Invalid link, doesn't match any room.", farm);
+        error_msg("Error.", farm);
     }
     create_link(farm);
     free_link(farm->link);

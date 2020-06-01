@@ -76,7 +76,7 @@ void find_linking_room(t_link *links, t_queue *open, t_farm *farm)
         links = links->next;
     }
     if (!flag)
-        error_msg("Error: Start or end Dont link to any rooms", farm);
+        error_msg("Error.", farm);
 }
 
 void set_depth(t_queue *open, t_room *rooms, int depth)

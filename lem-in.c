@@ -14,7 +14,7 @@ static void intitailze_values(t_farm *farm)
     farm->links = NULL;
     farm->lock = 1;
     farm->nbr_rooms = 0;
-    farm->ants = 0;
+    farm->ants = -2147483648;
     farm->current_depth = 0;
 }
 
@@ -25,9 +25,12 @@ static void intitailze_values(t_farm *farm)
 
 static void count_ants(t_farm *farm)
 {
-    if (ft_atoi(farm->line) < 1)
-        error_msg("Error: No ants on map.", farm);
-    farm->ants = ft_atoi(farm->line);
+    long ant;
+
+    ant = ft_atol(farm->line);
+    if (ant < 1 || ant > 2147483647 || ant < -2147483648)
+        error_msg("Error.", farm);
+    farm->ants = (int)ant;
 }
 
 /*
@@ -95,16 +98,15 @@ static void initialize_map(t_farm *farm)
         else if (ft_strchr(farm->line, '-') && farm->line[0] != '#')
             verify_links(farm);
         else if (farm->line[0] != '#')
-            error_msg("Error: Input not recognized.", farm);
-        ft_putendl(farm->line);
+            error_msg("Error.", farm);
         ft_strdel(&farm->line);
     }
     if (ret < 0)
-        error_msg("Error: Failed to read file.", farm);
+        error_msg("Error.", farm);
     if (!verify_start_end(farm))
-        error_msg("Error: No start or end declared.", farm);
+        error_msg("Error.", farm);
     if (farm->ants < 0)
-        error_msg("Error: No ants on map.", farm);
+        error_msg("Error.", farm);
 }
 
 int main(void)
@@ -117,7 +119,7 @@ int main(void)
     if (verify_paths(&farm))
         output_farm(&farm);
     else
-        error_msg("Error: No links or valid paths.", &farm);
+        error_msg("Error.", &farm);
     free_farm(&farm);
     return (0);
 }
