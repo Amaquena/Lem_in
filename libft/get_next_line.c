@@ -3,106 +3,107 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaquena <amaquena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 14:00:44 by amaquena          #+#    #+#             */
-/*   Updated: 2019/08/16 17:10:04 by amaquena         ###   ########.fr       */
+/*   Updated: 2020/05/30 21:34:25 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-** Finds the position of the newline char in the string that is passed to it
-*/
-
-
-static size_t	find_n(char **str, const int fd)
+void ft_substr(char buffer[])
 {
-	size_t	i;
+	long i;
+	long j;
+	char cpy[BUFF_SIZE + 1];
 
 	i = 0;
-	while (str[fd][i] != '\n' && str[fd][i] != '\0')
+	while (i < BUFF_SIZE + 1)
+		cpy[i++] = '\0';
+	i = 0;
+	while (buffer[i] != '\n' && i < BUFF_SIZE && buffer[i] != '\0')
 		i++;
-	return (i);
+	if (buffer[i] == '\n')
+		i++;
+	j = 0;
+	while (i < BUFF_SIZE)
+		cpy[j++] = buffer[i++];
+	i = -1;
+	while (++i < BUFF_SIZE)
+		buffer[i] = cpy[i];
+	buffer[i] = '\0';
 }
 
-/*
-** Takes the static var `str` and appends the string to `line` without the '\n'
-** char. Adds the overflow text to `extra` to temp hold the text before
-** reassigning it to static var `str` for use in the next loop.
-*/
-
-static int		newline(const int fd, char **line, int ret, char **str)
+int check_file(int fd, char files[][BUFF_SIZE + 1])
 {
-	char	*extra;
-	size_t	i;
+	long len;
+	long nb_read;
 
-	i = find_n(str, fd);
-	if (str[fd][i] == '\n')
-	{
-		*line = ft_strsub(str[fd], 0, i);
-		extra = ft_strdup(str[fd] + 1 + i);
-		free(str[fd]);
-		str[fd] = extra;
-		if (str[fd][0] == '\0')
-			ft_strdel(&str[fd]);
-	}
-	else if (str[fd][i] == '\0')
-	{
-		if (ret == BUFF_SIZE)
-			return (get_next_line(fd, line));
-		*line = ft_strdup(str[fd]);
-		ft_strdel(&str[fd]);
-	}
-	return (1);
-}
-
-/*
-** Function to determine what number (-1, 0, 1) to pass back to the main
-** -1 for an error, 0 for completion of reading in GNL, 1 for a successful
-** read of a line. Calls newline func to perform its job of reading to line
-** We are only assumed to be finished reading when the return value is 0 AND
-** the substring is at position '\0'
-*/
-
-static int		result(int ret, char **str, const int fd, char **line)
-{
-	if (ret < 0)
+	if (fd < 0 || fd > 10240)
 		return (-1);
-	else if (ret == 0 && (str[fd] == NULL || *str[fd] == '\0'))
-		return (0);
-	return (newline(fd, line, ret, str));
+	len = 0;
+	while (files[fd][len] && files[fd][len] != '\n' && len < BUFF_SIZE)
+		len++;
+	if (len > 0 || files[fd][len] == '\n')
+		return (len);
+	if ((nb_read = read(fd, files[fd], BUFF_SIZE)) < 0)
+		return (nb_read);
+	len = 0;
+	while (files[fd][len] != '\n' && len < nb_read)
+		len++;
+	return (len);
 }
 
-/*
-** ! Assumed `**line` will be initialized and freed by the main !
-** Multiple FDs supported. BUFF_SIZE chars are read from the FD, and assigned
-** to a temp variable, by joining `str` and `buffer`, before reassigning to
-** static var for safe-keeping. If a newline char is found in `buffer` during
-** the loop, we break out of the loop and call the newline function for
-** handling of assigning the "line" to `**line` for use in the main.
-*/
-
-int				get_next_line(const int fd, char **line)
+int copy_and_cut_buffer(int size, int length, char **line, char buffer[])
 {
-	int			ret;
-	char		buffer[BUFF_SIZE + 1];
-	static char *str[99];
-	char		*tmp;
+	long i;
+	char cpy[size];
 
-	if (fd < 0 || line == NULL || read(fd, buffer, 0))
+	i = -1;
+	while (++i < size - length)
+		cpy[i] = (*line)[i];
+	i = -1;
+	while (++i + (size - length) < size)
+		cpy[i + (size - length)] = buffer[i];
+	free((*line));
+	if (!((*line) = malloc(sizeof(char) *
+						   (size + ((buffer[length] == '\n' || !length) ? 1 : 0)))))
 		return (-1);
-	while ((ret = read(fd, buffer, BUFF_SIZE)))
+	i = -1;
+	while (++i < size)
+		(*line)[i] = cpy[i];
+	if (!(i *= 0) && (buffer[length] == '\n' || !length))
 	{
-		if (str[fd] == NULL)
-			str[fd] = ft_strdup("");
-		buffer[ret] = '\0';
-		tmp = ft_strjoin(str[fd], buffer);
-		free(str[fd]);
-		str[fd] = tmp;
-		if (ft_strchr(buffer, '\n'))
-			break ;
+		(*line)[size] = '\0';
+		ft_substr(buffer);
+		return (1);
 	}
-	return (result(ret, str, fd, line));
+	while ((buffer[length] != '\n' || length) && i < BUFF_SIZE)
+		buffer[i++] = '\0';
+	return (0);
+}
+
+int get_next_line(int fd, char **line)
+{
+	int length;
+	int size;
+	static char files[10242][BUFF_SIZE + 1];
+
+	if (!line || BUFF_SIZE <= 0 || !((*line) = malloc(sizeof(char))) || (length = check_file(fd, files)) < 0)
+		return (-1);
+	if (!length && files[fd][length] != '\n')
+		(*line)[0] = '\0';
+	size = 0;
+	while ((size += length) > -1 && (length || files[fd][length] == '\n'))
+	{
+		if ((length = copy_and_cut_buffer(size, length, line, files[fd])) != 0)
+			return (length);
+		if ((length = check_file(fd, files)) < 0)
+			return (length);
+	}
+	if (size > 0)
+		if (copy_and_cut_buffer(size, length, line, files[fd]) < 0)
+			return (-1);
+	return (0);
 }

@@ -3,19 +3,25 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+         #
+#    By: kris <kris@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/19 12:39:12 by amaquena          #+#    #+#              #
-#    Updated: 2020/05/27 21:08:43 by krissyleemc      ###   ########.fr        #
+#    Updated: 2020/05/29 09:57:34 by kris             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = lem-in.a
+NAME =	lem-in.a
+
 LEM-IN = lem-in
+
 CFILES = util.c rooms.c links.c solve.c free.c solve_assist.c solve_assist2.c
+
 OFILES = $(CFILES:.c=.o)
+
 CC = gcc
+
 FLAGS = -Wall -Wextra -Werror -ggdb3 -g
+
 LIBFT = -L./libft -lft
 
 $(NAME):
@@ -23,6 +29,7 @@ $(NAME):
 	@ar rcs $(NAME) $(OFILES)
 
 all: $(LEM-IN)
+
 clean:
 	@rm -f $(OFILES)
 
@@ -38,6 +45,7 @@ fclean: clean
 	@echo "___________________________________"
 	@echo "\nLem-in cleaned successfully"
 	@echo "___________________________________\n"
+
 re: fclean all
 	@echo "\n\t\t---COMPLETED---\n"
 

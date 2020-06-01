@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   util.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/05/29 10:01:43 by kris              #+#    #+#             */
+/*   Updated: 2020/05/29 10:02:48 by kris             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem-in.h"
 
 void error_msg(char *str, t_farm *farm)
@@ -30,6 +42,7 @@ t_ants *convert_path(t_farm *farm)
     while (farm->paths[path_count])
         path_count++;
 
+    farm->path_count = path_count;
     ants = (t_ants *)ft_memalloc(sizeof(t_ants) * (path_count));
     current_path = 0;
     while (current_path < path_count)
@@ -55,6 +68,7 @@ t_ants *convert_path(t_farm *farm)
         ants[current_path].rooms[i] = NULL;
         current_path++;
     }
+    // ants[current_path] = NULL;
     return (ants);
 }
 
@@ -107,4 +121,5 @@ void output_farm(t_farm *farm)
         keep = print_cycle(cycles, farm->ants, path_count, path);
         cycles++;
     }
+    free_ants(&path, farm->path_count);
 }

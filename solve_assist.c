@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   solve_assist.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/27 20:30:54 by krissyleemc       #+#    #+#             */
-/*   Updated: 2020/05/27 20:37:03 by krissyleemc      ###   ########.fr       */
+/*   Updated: 2020/05/29 09:59:16 by kris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 
-void add_to_closed_queue(t_queue **open, t_queue **closed)
+void        add_to_closed_queue(t_queue **open, t_queue **closed)
 {
     t_queue *tmp;
     t_queue *curr_closed;
@@ -46,7 +46,7 @@ void add_to_closed_queue(t_queue **open, t_queue **closed)
     }
 }
 
-int adjust_depth(t_room *rooms)
+int         adjust_depth(t_room *rooms)
 {
     while (rooms)
     {
@@ -58,7 +58,7 @@ int adjust_depth(t_room *rooms)
     return (1);
 }
 
-int check_if_end_found(t_queue *closed, t_room *rooms)
+int         check_if_end_found(t_queue *closed, t_room *rooms)
 {
     t_room *tmp_room;
 
@@ -70,11 +70,11 @@ int check_if_end_found(t_queue *closed, t_room *rooms)
     return (0);
 }
 
-void add_to_path_queue(t_room *room, t_queue **path, t_farm *farm)
+void        add_to_path_queue(t_room *room, t_queue **path, t_farm *farm)
 {
     t_queue *new_path;
     t_queue *tmp_path;
-    int flag;
+    int     flag;
 
     room->lock = farm->lock;
     tmp_path = path[0];
@@ -103,7 +103,7 @@ void add_to_path_queue(t_room *room, t_queue **path, t_farm *farm)
     }
 }
 
-int find_on_closed(t_queue *closed, char *name)
+int         find_on_closed(t_queue *closed, char *name)
 {
     while (closed)
     {
