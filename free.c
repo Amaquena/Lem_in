@@ -46,7 +46,7 @@ void    free_farm(t_farm *farm)
         {
             ft_strdel(&rooms->name);
             nextroom = rooms->next;
-            free(rooms);
+            ft_memdel((void **)&rooms);
             rooms = nextroom;
         }
     }
@@ -58,13 +58,13 @@ void    free_farm(t_farm *farm)
             ft_strdel(&links->room1);
             ft_strdel(&links->room2);
             nextlink = links->next;
-            free(links);
+            ft_memdel((void **)&links);
             links = nextlink;
         }
     }
-    free(rooms);
-    free(links);
-    free(paths);
+    ft_memdel((void ** )&rooms);
+    ft_memdel((void ** )&links);
+    ft_memdel((void ** )&paths);
     if (farm->line)
         ft_strdel(&farm->line);
 }
@@ -110,4 +110,30 @@ void    free_link(char **link)
         free(link);
         link = NULL;
     }
+}
+
+
+void free_ants(t_ants **ants, int path_count)
+{
+    int i;
+    int j;
+    t_ants *a;
+    t_ants *head;
+
+    a = *ants;
+    head = *ants;
+    i = 0;
+    while (i < (path_count))
+    {
+        j = 0;
+        while (a->rooms[j])
+        {
+            ft_strdel(&a->rooms[j]);
+            j++;
+        }
+        ft_memdel((void **)&a->rooms);
+        a = ++(*ants);
+        i++;
+    }
+    free(head);
 }

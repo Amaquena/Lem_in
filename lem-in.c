@@ -26,7 +26,7 @@ static void intitailze_values(t_farm *farm)
     farm->links = NULL;
     farm->lock = 1;
     farm->nbr_rooms = 0;
-    farm->ants = 0;
+    farm->ants = -2147483648;
     farm->current_depth = 0;
 }
 
@@ -37,9 +37,12 @@ static void intitailze_values(t_farm *farm)
 
 static void count_ants(t_farm *farm)
 {
-    if (ft_atoi(farm->line) < 1)
+    long ant;
+
+    ant = ft_atol(farm->line);
+    if (ant < 1 || ant > 2147483647 || ant < -2147483648)
         error_msg("Error.", farm);
-    farm->ants = ft_atoi(farm->line);
+    farm->ants = (int)ant;
 }
 
 /*

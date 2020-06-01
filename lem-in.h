@@ -112,6 +112,13 @@ void output_farm(t_farm *farm, t_content *file);
 t_room *find_room(char *name, t_room *room);
 void print_file(t_content **head);
 t_content *init_content(t_content **file, char *line);
+void        error_msg(char *str, t_farm *farm);
+void        free_farm(t_farm *farm);
+void        free_room(char **room);
+void        free_link(char **link);
+void        free_ants(t_ants **ants, int path_count);
+void        output_farm(t_farm *farm);
+t_room      *find_room(char *name, t_room *room);
 
 /*
 ** assist funtions

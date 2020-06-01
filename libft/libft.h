@@ -11,16 +11,16 @@
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
-#define LIBFT_H
-#include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#define INT_MIN -2147483648
-#define INT_MAX 2147483647
-#define BUFF_SIZE 1
+# define LIBFT_H
+# include <string.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# define INT_MIN -2147483648
+# define INT_MAX 2147483647
+# define BUFF_SIZE 1
 
 typedef struct s_list
 {
