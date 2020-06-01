@@ -12,6 +12,22 @@
 
 #include "lem-in.h"
 
+static void check_duplicate_rooms(t_farm *farm)
+{
+    t_room *rooms;
+
+    rooms = farm->rooms;
+    while (rooms)
+    {
+        if (ft_strequ(rooms->name, farm->room[0]))
+        {
+            free_room(farm->room);
+            error_msg("Error.", farm);
+        }
+        rooms = rooms->next;
+    }
+}
+
 /*
     create_room() mallocs space in memory for a new room,
     this new room is given the inputs from farm->room and
@@ -26,12 +42,24 @@ static void create_room(t_farm *farm, int type)
 {
     t_room *new_room;
     t_room *head;
+    long x;
+    long y;
+
+    x = ft_atol(farm->room[1]);
+    y = ft_atol(farm->room[2]);
+    if (x > 2147483647 || x < -2147483648 ||
+        y > 2147483647 || y < -2147483648)
+    {
+        free_room(farm->room);
+        error_msg("Error.", farm);
+    }
+    check_duplicate_rooms(farm);
 
     if (!(new_room = (t_room *)malloc(sizeof(t_room))))
         error_msg("Error.", farm);
     new_room->name = ft_strdup(farm->room[0]);
-    new_room->x = ft_atoi(farm->room[1]);
-    new_room->y = ft_atoi(farm->room[2]);
+    new_room->x = (int)x;
+    new_room->y = (int)y;
     new_room->visited = 0;
     new_room->lock = 0;
     new_room->depth = 0;
