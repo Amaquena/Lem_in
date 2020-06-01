@@ -17,15 +17,14 @@ void        add_to_closed_queue(t_queue **open, t_queue **closed)
     t_queue *tmp;
     t_queue *curr_closed;
 
+    tmp = (*open);
     if ((*open) && (*open)->next)
     {
-        tmp = (*open);
         (*open)->next->prev = NULL;
         (*open) = (*open)->next;
     }
     else if ((*open) && !(*open)->next)
     {
-        tmp = (*open);
         tmp->next = NULL;
         (*open) = NULL;
     }

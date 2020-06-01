@@ -92,16 +92,19 @@ static void initialize_map(t_farm *farm)
 {
     int type;
     int ret;
-    // t_content *file;
+    int count;
 
     type = REG;
     ret = 0;
-    // file = NULL;
+    count = 0;
     while ((ret = get_next_line(0, &farm->line)) > 0)
     {
         farm->file = init_content(&farm->file, farm->line);
-        if (ft_strisdigit(farm->line))
+        if (ft_strisdigit(farm->line) && count == 0)
+        {
             count_ants(farm);
+            type = REG;
+        }
         else if (ft_strequ(farm->line, "##start"))
             type = START;
         else if (ft_strequ(farm->line, "##end"))
@@ -116,6 +119,7 @@ static void initialize_map(t_farm *farm)
         else if (farm->line[0] != '#')
             error_msg("Error.", farm);
         ft_strdel(&farm->line);
+        count++;
     }
     if (ret < 0)
         error_msg("Error.", farm);
@@ -123,7 +127,6 @@ static void initialize_map(t_farm *farm)
         error_msg("Error.", farm);
     if (farm->ants < 0)
         error_msg("Error.", farm);
-    // return (file);
 }
 
 int main(void)
