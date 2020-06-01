@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rooms.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/29 10:00:50 by kris              #+#    #+#             */
-/*   Updated: 2020/05/30 10:38:26 by kris             ###   ########.fr       */
+/*   Updated: 2020/06/01 19:30:12 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
     farm->rooms holds a list of all the rooms that are on the map.
 */
 
-static void     create_room(t_farm *farm, int type)
+static void create_room(t_farm *farm, int type)
 {
-    t_room  *new_room;
-    t_room  *head;
+    t_room *new_room;
+    t_room *head;
 
     if (!(new_room = (t_room *)malloc(sizeof(t_room))))
-        error_msg("Error: Failed malloc when creating room.", farm);
+        error_msg("Error.", farm);
     new_room->name = ft_strdup(farm->room[0]);
     new_room->x = ft_atoi(farm->room[1]);
     new_room->y = ft_atoi(farm->room[2]);
@@ -58,10 +58,10 @@ static void     create_room(t_farm *farm, int type)
     and a valid end in the map;
 */
 
-int             verify_start_end(t_farm *farm)
+int verify_start_end(t_farm *farm)
 {
-    t_room  *head;
-    int     flag;
+    t_room *head;
+    int flag;
 
     head = farm->rooms;
     flag = 0;
@@ -83,9 +83,9 @@ int             verify_start_end(t_farm *farm)
     not deined as a start room and an end room.
 */
 
-static int      verify_start_not_end(t_farm *farm)
+static int verify_start_not_end(t_farm *farm)
 {
-    t_room  *head;
+    t_room *head;
 
     head = farm->rooms;
     while (head)
@@ -108,9 +108,9 @@ static int      verify_start_not_end(t_farm *farm)
     If all tests passes the create_room() is called.
 */
 
-void            verify_room(t_farm *farm, int type)
+void verify_room(t_farm *farm, int type)
 {
-    int     count;
+    int count;
 
     count = 0;
     farm->room = ft_strsplit(farm->line, ' ');
@@ -119,17 +119,17 @@ void            verify_room(t_farm *farm, int type)
     if (count != 3)
     {
         free_room(farm->room);
-        error_msg("Error: Incorrect format for declaring room.", farm);
+        error_msg("Error.", farm);
     }
     if (!ft_strisdigit(farm->room[1]) || !ft_strisdigit(farm->room[2]))
     {
         free_room(farm->room);
-        error_msg("Error: Room coordinates must be of integer type.", farm);
+        error_msg("Error.", farm);
     }
     if (!verify_start_not_end(farm))
     {
         free_room(farm->room);
-        error_msg("Error: Room set as Start and End", farm);
+        error_msg("Error.", farm);
     }
     create_room(farm, type);
     free_room(farm->room);

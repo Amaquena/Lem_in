@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   solve_assist2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/27 20:39:10 by krissyleemc       #+#    #+#             */
-/*   Updated: 2020/05/29 09:59:50 by kris             ###   ########.fr       */
+/*   Updated: 2020/06/01 19:30:24 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void        find_linking_room(t_link *links, t_queue *open, t_farm *farm)
         links = links->next;
     }
     if (!flag)
-        error_msg("Error: Start or end Dont link to any rooms", farm);
+        error_msg("Error.", farm);
 }
 
 void        set_depth(t_queue *open, t_room *rooms, int depth)

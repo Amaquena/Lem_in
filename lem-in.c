@@ -6,7 +6,7 @@
 /*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/29 10:01:13 by kris              #+#    #+#             */
-/*   Updated: 2020/05/30 20:17:57 by krissyleemc      ###   ########.fr       */
+/*   Updated: 2020/06/01 20:18:40 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void intitailze_values(t_farm *farm)
 static void count_ants(t_farm *farm)
 {
     if (ft_atoi(farm->line) < 1)
-        error_msg("Error: No ants on map.", farm);
+        error_msg("Error.", farm);
     farm->ants = ft_atoi(farm->line);
 }
 
@@ -84,15 +84,18 @@ int verify_paths(t_farm *farm)
     return (1);
 }
 
-static void initialize_map(t_farm *farm)
+static t_content *initialize_map(t_farm *farm)
 {
     int type;
     int ret;
+    t_content *file;
 
     type = REG;
     ret = 0;
+    file = NULL;
     while ((ret = get_next_line(0, &farm->line)) > 0)
     {
+        file = init_content(&file, farm->line);
         if (ft_strisdigit(farm->line))
             count_ants(farm);
         else if (ft_strequ(farm->line, "##start"))
@@ -107,16 +110,17 @@ static void initialize_map(t_farm *farm)
         else if (ft_strchr(farm->line, '-') && farm->line[0] != '#')
             verify_links(farm);
         else if (farm->line[0] != '#')
-            error_msg("Error: Input not recognized.", farm);
-        ft_putendl(farm->line);
+            error_msg("Error.", farm);
         ft_strdel(&farm->line);
     }
     if (ret < 0)
-        error_msg("Error: Failed to read file.", farm);
+        error_msg("Error.", farm);
     if (!verify_start_end(farm))
-        error_msg("Error: No start or end declared.", farm);
+        error_msg("Error.", farm);
     if (farm->ants < 0)
-        error_msg("Error: No ants on map.", farm);
+        error_msg("Error.", farm);
+    // print_file(&file);
+    return (file);
 }
 
 int main(void)
@@ -127,9 +131,9 @@ int main(void)
     initialize_map(&farm);
     solve(&farm);
     if (verify_paths(&farm))
-        output_farm(&farm);
+        output_farm(&farm, initialize_map(&farm));
     else
-        error_msg("Error: No links or valid paths.", &farm);
+        error_msg("Error.", &farm);
     free_farm(&farm);
     return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kris <kris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/29 10:01:43 by kris              #+#    #+#             */
-/*   Updated: 2020/05/29 10:02:48 by kris             ###   ########.fr       */
+/*   Updated: 2020/06/01 20:19:24 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,66 @@ void free_ants(t_ants **ants, int path_count)
     free(head);
 }
 
-void output_farm(t_farm *farm)
+static t_content *create_node(char *line)
+{
+    t_content *node;
+
+    node = (t_content *)malloc(sizeof(t_content));
+    if (node)
+    {
+        node->content = ft_strdup(line);
+        node->next = NULL;
+    }
+    return (node);
+}
+
+static void add_tail(t_content **head, t_content *node)
+{
+    t_content *tmp;
+
+    if (!(head) || (!(node)))
+        return;
+    tmp = *head;
+    if (tmp)
+    {
+        while (tmp->next)
+            tmp = tmp->next;
+        tmp->next = node;
+    }
+}
+
+t_content *init_content(t_content **file, char *line)
+{
+    t_content *node;
+    t_content *head;
+
+    head = *file;
+    if (head)
+    {
+        node = create_node(line);
+        add_tail(&head, node);
+    }
+    else
+        head = create_node(line);
+    return (head);
+}
+
+void print_file(t_content **head)
+{
+    t_content *node;
+
+    node = *head;
+    if (node)
+    {
+        while (node)
+        {
+            ft_putendl(node->content);
+            node = node->next;
+        }
+    }
+}
+
+void output_farm(t_farm *farm, t_content *file)
 {
     int path_count;
     int keep;
@@ -135,6 +194,7 @@ void output_farm(t_farm *farm)
 
     path = convert_path(farm);
     path_count = 0;
+    print_file(&file);
     while (farm->paths[path_count])
         path_count++;
     keep = 1;

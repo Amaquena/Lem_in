@@ -6,92 +6,102 @@
 /*   By: krissyleemc <krissyleemc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 14:00:44 by amaquena          #+#    #+#             */
-/*   Updated: 2020/06/01 16:38:44 by krissyleemc      ###   ########.fr       */
+/*   Updated: 2020/06/01 18:18:54 by krissyleemc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char *ft_strsubchr(char **line, char *temp, char c)
-{
-	size_t count;
-	char *str;
+/*
+** Finds the position of the newline char in the string that is passed to it
+*/
 
-	count = 0;
-	while (temp[count] != '\0')
-	{
-		if (temp[count] == c)
-			break;
-		count++;
-	}
-	if (temp[count] == '\n')
-	{
-		*line = ft_strsub(temp, 0, count);
-		str = ft_strdup(&temp[count + 1]);
-	}
-	if (temp[count] == '\0')
-	{
-		*line = ft_strsub(temp, 0, count);
-		str = ft_strnew(0);
-	}
-	return (str);
+static size_t find_n(char **str, const int fd)
+{
+	size_t i;
+
+	i = 0;
+	while (str[fd][i] != '\n' && str[fd][i] != '\0')
+		i++;
+	return (i);
 }
 
-static int readfile(int fd, t_list **curr_list)
-{
-	int ret;
-	char *temp;
-	char buff[BUFF_SIZE + 1];
+/*
+** Takes the static var `str` and appends the string to `line` without the '\n'
+** char. Adds the overflow text to `extra` to temp hold the text before
+** reassigning it to static var `str` for use in the next loop.
+*/
 
-	while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
+static int newline(const int fd, char **line, int ret, char **str)
+{
+	char *extra;
+	size_t i;
+
+	i = find_n(str, fd);
+	if (str[fd][i] == '\n')
 	{
-		buff[ret] = '\0';
-		temp = ft_strjoin((*curr_list)->content, buff);
-		free((*curr_list)->content);
-		(*curr_list)->content = temp;
-		if (ft_strchr(buff, '\n'))
-			break;
+		*line = ft_strsub(str[fd], 0, i);
+		extra = ft_strdup(str[fd] + 1 + i);
+		free(str[fd]);
+		str[fd] = extra;
+		if (str[fd][0] == '\0')
+			ft_strdel(&str[fd]);
 	}
-	return (ret);
+	else if (str[fd][i] == '\0')
+	{
+		if (ret == BUFF_SIZE)
+			return (get_next_line(fd, line));
+		*line = ft_strdup(str[fd]);
+		ft_strdel(&str[fd]);
+	}
+	return (1);
 }
 
-static t_list *ft_getfile(t_list **file, int fd)
-{
-	t_list *temp;
+/*
+** Function to determine what number (-1, 0, 1) to pass back to the main
+** -1 for an error, 0 for completion of reading in GNL, 1 for a successful
+** read of a line. Calls newline func to perform its job of reading to line
+** We are only assumed to be finished reading when the return value is 0 AND
+** the substring is at position '\0'
+*/
 
-	temp = *file;
-	while (temp)
-	{
-		if ((int)temp->content_size == fd)
-			return (temp);
-		temp = temp->next;
-	}
-	temp = ft_lstnew("\0", fd);
-	ft_lstadd(file, temp);
-	temp = NULL;
-	return (*file);
+static int result(int ret, char **str, const int fd, char **line)
+{
+	if (ret < 0)
+		return (-1);
+	else if (ret == 0 && (str[fd] == NULL || *str[fd] == '\0'))
+		return (0);
+	return (newline(fd, line, ret, str));
 }
+
+/*
+** ! Assumed `**line` will be initialized and freed by the main !
+** Multiple FDs supported. BUFF_SIZE chars are read from the FD, and assigned
+** to a temp variable, by joining `str` and `buffer`, before reassigning to
+** static var for safe-keeping. If a newline char is found in `buffer` during
+** the loop, we break out of the loop and call the newline function for
+** handling of assigning the "line" to `**line` for use in the main.
+*/
 
 int get_next_line(const int fd, char **line)
 {
 	int ret;
-	char *temp;
-	char buff[BUFF_SIZE + 1];
-	static t_list *fd_list;
-	t_list *curr_file;
+	char buffer[BUFF_SIZE + 1];
+	static char *str[99];
+	char *tmp;
 
-	if (read(fd, buff, 0) < 0 || fd < 0 || fd <= -2147483648 ||
-		fd >= 2147483647 || !line || BUFF_SIZE <= 0)
+	if (fd < 0 || line == NULL || read(fd, buffer, 0))
 		return (-1);
-	curr_file = ft_getfile(&fd_list, fd);
-	if ((ret = readfile(fd, &curr_file)) < 0)
-		return (-1);
-	if (!ret && !(ft_strlen(curr_file->content)))
+	while ((ret = read(fd, buffer, BUFF_SIZE)))
 	{
-		return (0);
+		if (str[fd] == NULL)
+			str[fd] = ft_strdup("");
+		buffer[ret] = '\0';
+		tmp = ft_strjoin(str[fd], buffer);
+		free(str[fd]);
+		str[fd] = tmp;
+		if (ft_strchr(buffer, '\n'))
+			break;
 	}
-	temp = ft_strsubchr(line, (char *)curr_file->content, '\n');
-	free(curr_file->content);
-	curr_file->content = temp;
-	return (1);
+	return (result(ret, str, fd, line));
 }
