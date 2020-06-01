@@ -118,8 +118,9 @@ static void initialize_map(t_farm *farm)
             verify_links(farm);
         else if (farm->line[0] != '#')
             error_msg("Error.", farm);
+        if (farm->line[0] != '#')
+            count++;
         ft_strdel(&farm->line);
-        count++;
     }
     if (ret < 0)
         error_msg("Error.", farm);
